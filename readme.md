@@ -1,4 +1,4 @@
-![Node.js Logo](node.png)
+![Node.js](node.png)
 
 # Project Title
 

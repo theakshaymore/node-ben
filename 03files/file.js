@@ -16,4 +16,6 @@ const fs = require("fs");
 //   }
 // });
 
-fs.appendFileSync("./test.txt", `\nNew text`);
+// fs.appendFileSync("./test.txt", `\nNew text`);
+
+console.log(fs.statSync("./test.txt"));

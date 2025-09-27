@@ -1,3 +1,5 @@
+![Node.js Logo](node.png)
+
 # Project Title
 
 A brief description of your project.

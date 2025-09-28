@@ -7,6 +7,7 @@ const app = express();
 
 // Middleware
 app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
 // Routes
 app.get("/", (req, res) => {
@@ -19,17 +20,7 @@ app.get("/api/users", (req, res) => {
 
 app.post("/api/users", (req, res) => {
   const body = req.body;
-  //   const user = {
-  //     id: userData.length + 1,
-  //     first_name,
-  //     last_name,
-  //     email,
-  //     gender,
-  //     job_title,
-  //   };
-
   userData.push({ ...body, id: userData.length + 1 });
-
   fs.writeFile("./MOCK_DATA.json", JSON.stringify(userData), (err, data) => {
     if (err) {
       return res.json({
@@ -45,18 +36,55 @@ app.post("/api/users", (req, res) => {
 app
   .route("/api/users/:id")
   .get((req, res) => {
-    const id = req.params.id;
+    const id = Number(req.params.id);
     const user = userData.find((user) => user.id == id);
+    if (!user) {
+      return res.status(404).json({
+        msg: "user not found",
+      });
+    }
     res.json(user);
   })
   .patch((req, res) => {
-    return res.json({
-      status: "pending",
+    const id = Number(req.params.id);
+    const userIndex = userData.findIndex((user) => user.id == id);
+    if (userIndex === -1) {
+      return res.status(404).json({
+        msg: "user with id not found",
+      });
+    }
+
+    userData[userIndex] = { ...userData[userIndex], ...req.body };
+    fs.writeFile("./MOCK_DATA.json", JSON.stringify(userData), (err) => {
+      if (err) {
+        return res.status(500).json({
+          msg: "error updating user",
+        });
+      }
+      return res.status(200).json({
+        msg: "user updated successfully",
+      });
     });
   })
   .delete((req, res) => {
-    return res.json({
-      status: "pending",
+    const id = Number(req.params.id);
+    const userIndex = userData.findIndex((user) => user.id == id);
+    if (userIndex == -1) {
+      return res.status(404).json({
+        msg: "user with id not found",
+      });
+    }
+
+    userData.splice(userIndex, 1);
+    fs.writeFile("./MOCK_DATA.json", JSON.stringify(userData), (err) => {
+      if (err) {
+        return res.status(500).json({
+          msg: "error deleting user",
+        });
+      }
+      return res.status(200).json({
+        msg: "user deleted successfully",
+      });
     });
   });
 

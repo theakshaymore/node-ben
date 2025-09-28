@@ -16,8 +16,17 @@ app.get("/api/users", (req, res) => {
 });
 
 app.post("/api/users", (req, res) => {
-  const body = req.body;
-  console.log(body);
+  //   const { first_name, last_name, email, gender, job_title } = req.body;
+  //   const user = {
+  //     id: userData.length + 1,
+  //     first_name,
+  //     last_name,
+  //     email,
+  //     gender,
+  //     job_title,
+  //   };
+
+  userData.push({ ...req.body, id: userData.length + 1 });
 
   return res.json({
     status: "pending",

@@ -1,5 +1,17 @@
 ![Node.js](node.png)
 
+### REST API
+
+[REST API](11-rest-api/index.md)
+
+### Node Versioning
+
+[Node Versioning](10-node-versioning/index.md)
+
+### HTTPS Methods
+
+[HTTPS Methods](08-https-methods/httpMethods.md)
+
 # Project Title
 
 A brief description of your project.
@@ -23,6 +35,10 @@ A step-by-step guide on how to install the project.
 ## Usage
 
 Instructions on how to use the project or its features.
+
+### REST API Documentation
+
+See the [REST API Guide](11-rest-api/index.md) for details about the REST API implementation.
 
 ## Contributing
 

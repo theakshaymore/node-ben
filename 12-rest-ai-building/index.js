@@ -3,6 +3,10 @@ const userData = require("./MOCK_DATA.json");
 
 const app = express();
 
+// Middleware
+app.use(express.urlencoded({ extended: false }));
+
+// Routes
 app.get("/", (req, res) => {
   res.send("Welcome to Homepage");
 });

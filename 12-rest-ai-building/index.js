@@ -71,7 +71,7 @@ app
     const userIndex = userData.findIndex((user) => user.id == id);
     if (userIndex == -1) {
       return res.status(404).json({
-        msg: "user with id not found",
+        msg: "user with id not foundd",
       });
     }
 

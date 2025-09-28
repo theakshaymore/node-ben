@@ -11,6 +11,15 @@ app.get("/api/users", (req, res) => {
   res.json(userData);
 });
 
+app.post("/api/users", (req, res) => {
+  const body = req.body;
+  console.log(body);
+
+  return res.json({
+    status: "pending",
+  });
+});
+
 app
   .route("/api/users/:id")
   .get((req, res) => {

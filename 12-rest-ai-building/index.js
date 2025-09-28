@@ -4,16 +4,30 @@ const userData = require("./MOCK_DATA.json");
 const app = express();
 
 app.get("/", (req, res) => {
-  res.send("welcome to root");
+  res.send("Welcome to Homepage");
 });
 
 app.get("/api/users", (req, res) => {
   res.json(userData);
 });
 
-app.get("/api/users/1", (req, res) => {
-  res.send("users 1 api route");
-});
+app
+  .route("/api/users/:id")
+  .get((req, res) => {
+    const id = req.params.id;
+    const user = userData.find((user) => user.id == id);
+    res.json(user);
+  })
+  .patch((req, res) => {
+    return res.json({
+      status: "pending",
+    });
+  })
+  .delete((req, res) => {
+    return res.json({
+      status: "pending",
+    });
+  });
 
 const port = 5000;
 

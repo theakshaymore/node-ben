@@ -1,4 +1,6 @@
 const express = require("express");
+const fs = require("fs");
+
 const userData = require("./MOCK_DATA.json");
 
 const app = express();
@@ -16,7 +18,7 @@ app.get("/api/users", (req, res) => {
 });
 
 app.post("/api/users", (req, res) => {
-  //   const { first_name, last_name, email, gender, job_title } = req.body;
+  const body = req.body;
   //   const user = {
   //     id: userData.length + 1,
   //     first_name,
@@ -26,10 +28,17 @@ app.post("/api/users", (req, res) => {
   //     job_title,
   //   };
 
-  userData.push({ ...req.body, id: userData.length + 1 });
+  userData.push({ ...body, id: userData.length + 1 });
 
-  return res.json({
-    status: "pending",
+  fs.writeFile("./MOCK_DATA.json", JSON.stringify(userData), (err, data) => {
+    if (err) {
+      return res.json({
+        status: "error in adding user",
+      });
+    }
+    return res.json({
+      status: "user added successfully",
+    });
   });
 });
 

@@ -57,8 +57,15 @@ app.get("/", (req, res) => {
   res.send("Welcome to Homepage");
 });
 
-app.get("/api/users", (req, res) => {
-  res.json(userData);
+app.get("/api/users", async (req, res) => {
+  try {
+    const user = await User.find();
+    res.status(200).json({ msg: "Users fetched successful", user });
+  } catch (err) {
+    res.status(400).json({
+      err: "Not able to fetch users",
+    });
+  }
 });
 
 app.post("/api/users", async (req, res) => {

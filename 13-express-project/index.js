@@ -3,6 +3,18 @@ const mongoose = require("mongoose");
 
 const app = express();
 
+// DB Connection
+mongoose
+  .connect("mongodb://localhost:27017/chai-app1")
+  .then(() => {
+    console.log("MONGODB CONNECTED SUCCESSFULY ...!");
+  })
+  .catch((err) => {
+    console.log("ERROR IN CONNECTING MONGODB...", err);
+  });
+
+// Schemas
+
 // Middleware
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());

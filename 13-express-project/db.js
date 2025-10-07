@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 
-export default function connectToMongo(url) {
-  return mongoose.connect("");
+function connectToMongo(url) {
+  return mongoose.connect(url);
 }
+
+module.exports = connectToMongo;

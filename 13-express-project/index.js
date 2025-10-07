@@ -5,7 +5,7 @@ const app = express();
 
 // SEC:DB Connection
 mongoose
-  .connect("mongodb://localhost:27017/chai-app1")
+  .connect("mongodb://127.0.0.1:27017/chai-app1")
   .then(() => {
     console.log("MONGODB CONNECTED SUCCESSFULY ...!");
   })
@@ -20,20 +20,27 @@ const userSchema = new mongoose.Schema(
     firstname: {
       type: String,
       required: true,
+      trim: true,
     },
     lastname: {
       type: String,
+      required: true,
+      trim: true,
     },
     email: {
       type: String,
       required: true,
       unique: true,
+      lowercase: true,
+      trim: true,
     },
     jobtitle: {
       type: String,
+      default: "",
     },
     gender: {
       type: String,
+      default: "",
     },
   },
   { timestamps: true }
@@ -54,19 +61,26 @@ app.get("/api/users", (req, res) => {
   res.json(userData);
 });
 
-app.post("/api/users", (req, res) => {
-  const body = req.body;
-  userData.push({ ...body, id: userData.length + 1 });
-  fs.writeFile("./MOCK_DATA.json", JSON.stringify(userData), (err, data) => {
-    if (err) {
-      return res.json({
-        status: "error in adding user",
-      });
-    }
-    return res.json({
-      status: "user added successfully",
+app.post("/api/users", async (req, res) => {
+  const { firstname, lastname, email, jobtitle, gender } = req.body;
+  //   userData.push({ ...body, id: userData.length + 1 });
+  try {
+    const user = await User.create({
+      firstname,
+      lastname,
+      email,
+      jobtitle,
+      gender,
     });
-  });
+    res.status(201).json({
+      msg: "User created successfully",
+      userid: user._id,
+    });
+  } catch (err) {
+    res.status(400).json({
+      err: "Error creating user",
+    });
+  }
 });
 
 app

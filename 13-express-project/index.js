@@ -106,26 +106,29 @@ app
       });
     }
   })
-  .patch((req, res) => {
-    const id = Number(req.params.id);
-    const userIndex = userData.findIndex((user) => user.id == id);
-    if (userIndex === -1) {
-      return res.status(404).json({
-        msg: "user with id not found",
+  .patch(async (req, res) => {
+    try {
+      const userid = req.params.id;
+      const { firstname, lastname, email, jobtitle, gender } = req.body;
+      const user = await User.findOneAndUpdate(
+        { _id: userid },
+        { firstname, lastname, email, jobtitle, gender },
+        { new: true }
+      );
+      !user
+        ? res.status(400).json({
+            msg: "no user found with id",
+          })
+        : res.status(200).json({
+            msg: "user updated aptly",
+            user,
+          });
+    } catch (err) {
+      console.log(err);
+      res.status(400).json({
+        err: "error in user updation",
       });
     }
-
-    userData[userIndex] = { ...userData[userIndex], ...req.body };
-    fs.writeFile("./MOCK_DATA.json", JSON.stringify(userData), (err) => {
-      if (err) {
-        return res.status(500).json({
-          msg: "error updating user",
-        });
-      }
-      return res.status(200).json({
-        msg: "user updated successfully",
-      });
-    });
   })
   .delete((req, res) => {
     const id = Number(req.params.id);

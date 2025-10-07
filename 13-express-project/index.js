@@ -92,15 +92,19 @@ app.post("/api/users", async (req, res) => {
 
 app
   .route("/api/users/:id")
-  .get((req, res) => {
-    const id = Number(req.params.id);
-    const user = userData.find((user) => user.id == id);
-    if (!user) {
-      return res.status(404).json({
-        msg: "user not found",
+  .get(async (req, res) => {
+    try {
+      const userid = req.params.id;
+      const user = await User.findById(userid);
+      res.status(200).json({
+        msg: "Fetched used successfully",
+        user,
+      });
+    } catch (err) {
+      res.status(400).json({
+        msg: "Error getching user",
       });
     }
-    res.json(user);
   })
   .patch((req, res) => {
     const id = Number(req.params.id);

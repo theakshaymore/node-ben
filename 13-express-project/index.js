@@ -1,5 +1,5 @@
 const express = require("express");
-const mongoose = require("mongoose");
+
 
 const app = express();
 
@@ -15,38 +15,7 @@ mongoose
 
 // SECTION: Schemas
 
-const userSchema = new mongoose.Schema(
-  {
-    firstname: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    lastname: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-      lowercase: true,
-      trim: true,
-    },
-    jobtitle: {
-      type: String,
-      default: "",
-    },
-    gender: {
-      type: String,
-      default: "",
-    },
-  },
-  { timestamps: true }
-);
 
-const User = mongoose.model("user", userSchema);
 
 // SECTION: Middleware
 app.use(express.urlencoded({ extended: false }));

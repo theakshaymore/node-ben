@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 
 const app = express();
 
-// SEC:DB Connection
+// SECTION:DB Connection
 mongoose
   .connect("mongodb://127.0.0.1:27017/chai-app1")
   .then(() => {
@@ -13,7 +13,7 @@ mongoose
     console.log("ERROR IN CONNECTING MONGODB...", err);
   });
 
-// SEC: Schemas
+// SECTION: Schemas
 
 const userSchema = new mongoose.Schema(
   {
@@ -48,11 +48,12 @@ const userSchema = new mongoose.Schema(
 
 const User = mongoose.model("user", userSchema);
 
-// SEC: Middleware
+// SECTION: Middleware
 app.use(express.urlencoded({ extended: false }));
+// IMP:
 app.use(express.json());
 
-// SEC: Routes
+// SECTION: Routes
 app.get("/", (req, res) => {
   res.send("Welcome to Homepage");
 });
@@ -149,7 +150,7 @@ app
     }
   });
 
-// SEC: Others
+// SECTION: Others
 const port = 3000;
 
 app.listen(port, () => {

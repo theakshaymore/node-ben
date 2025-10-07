@@ -1,11 +1,12 @@
 const express = require("express");
+const { default: connectToMongo } = require("./db");
 
+const MONGO_URL = "mongodb://127.0.0.1:27017/chai-app1";
 
 const app = express();
 
-// SECTION:DB Connection
-mongoose
-  .connect("mongodb://127.0.0.1:27017/chai-app1")
+// SECTION: DB Connection
+connectToMongo(MONGO_URL)
   .then(() => {
     console.log("MONGODB CONNECTED SUCCESSFULY ...!");
   })
@@ -14,8 +15,6 @@ mongoose
   });
 
 // SECTION: Schemas
-
-
 
 // SECTION: Middleware
 app.use(express.urlencoded({ extended: false }));

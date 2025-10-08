@@ -10,9 +10,9 @@ app.get("/", (req, res) => {
 
 app.get("/data", async (req, res) => {
   try {
-    const response = await fetch("https://akshaymore.netlify.app/rest.json");
+    const response = await fetch("https://akshaymore.com/rest.json");
     const data = await response.json();
-    console.log(data);
+    //     console.log(data);
     res.status(200).json(data);
   } catch (err) {
     console.error("Error fetching data:", err);

@@ -5,6 +5,7 @@ const path = require("path");
 
 const urlRoutes = require("./routes/url.routes.js");
 const staticRoutes = require("./routes/static.routes.js");
+const userRoutes = require("./routes/user.routes.js");
 const { connectToMongoDB } = require("./db.js");
 const Url = require("./models/url.model.js");
 
@@ -53,6 +54,8 @@ app.get("/url/:shortId", async (req, res) => {
 
   res.redirect(response.urlTarget);
 });
+
+app.use("/auth", userRoutes);
 
 app.listen(PORT, () => {
   console.log(`APP IS RUNNING AT PORT ${PORT}....`);

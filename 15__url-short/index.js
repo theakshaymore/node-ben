@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 
 const urlRoutes = require("./routes/url.routes.js");
 const { connectToMongoDB } = require("./db.js");
@@ -8,6 +9,14 @@ const PORT = 5001;
 const MONGO_URL = "mongodb://127.0.0.1:27017/url-shortner";
 
 const app = express();
+
+app.use(
+  cors({
+    origin: "*", // allow all origins (use specific domains in production)
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
 app.use(express.json());
 
@@ -25,12 +34,13 @@ app.get("/", (req, res) => {
 
 app.use("/url", urlRoutes);
 
-app.use("/url/:shortId", async (req, res) => {
+app.get("/url/:shortId", async (req, res) => {
   const shortId = req.params.shortId;
 
   const response = await Url.findOneAndUpdate(
     { urlShortId: shortId },
-    { $push: { urlHistory: { timestamp: Date.now() } } }
+    { $push: { urlHistory: { timestamp: Date.now() } } },
+    { new: true }
   );
 
   res.redirect(response.urlTarget);

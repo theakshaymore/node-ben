@@ -1,22 +1,26 @@
-const { nanoid } = require("nanoid");
+const { nanoid } = require("nanoid/non-secure");
 const Url = require("../models/url.model");
 
 async function handleShortIdGenerator(req, res) {
   try {
-    const urlId = nanoid();
-
+    const urlId = nanoid(8);
     const { targetUrl } = req.body;
+
     if (!targetUrl) return res.status(400).json({ msg: "target url required" });
 
     const response = await Url.create({
       urlShortId: urlId,
       urlTarget: targetUrl,
-      // urlHistory: { $push: { timestamp: Date.now() } },
     });
+
+    // http://localhost:5001/url/mqXoZVuSxdoSztK6J72gi
+
+    const shortUrl = `${req.protocol}://${req.get("host")}/url/${urlId}`;
 
     return res.status(200).json({
       msg: "sort url id generated aptly",
-      response,
+      shortUrl,
+      data: response,
     });
   } catch (error) {
     console.log(error);

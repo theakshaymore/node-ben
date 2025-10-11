@@ -39,7 +39,7 @@ app.get("/", (req, res) => {
 
 app.get("/getall", async (req, res) => {
   const response = await Url.find({});
-  res.render("home", { res: response });
+  res.render("home", { response });
 });
 
 app.use("/url", urlRoutes);

@@ -6,9 +6,12 @@
     <title>HomePage</title>
   </head>
   <body>
-    <h1>Server side rendering</h1>
-    <% res.forEach(element => { %>
-    <li><%= element.urlShortId %></li>
-    <% }); %>
+    <h1>Server Side Rendering</h1>
+
+    <ul>
+      <% response.forEach(element => { %>
+      <li><%= element.urlShortId %></li>
+      <% }); %>
+    </ul>
   </body>
 </html>

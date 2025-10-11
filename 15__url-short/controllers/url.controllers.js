@@ -39,30 +39,41 @@ async function deleteAllUrls(req, res) {
   }
 }
 
-async function handleShortIdRedirect(req, res) {
-  try {
-    const shortUrlId = req.params.shortId;
-    const response = await Url.findOneAndDelete(
-      { shortUrlId },
-      { urlHistory: { $push: { timestamp: Date.now() } } }
-    );
+// async function handleShortIdRedirect(req, res) {
+//   try {
+//     const shortUrlId = req.params.shortId;
+//     const response = await Url.findOneAndDelete(
+//       { shortUrlId },
+//       { urlHistory: { $push: { timestamp: Date.now() } } }
+//     );
 
-    // res.status(200).json({
-    //   msg: "analytics updated aptly",
-    //   hits: response,
-    // })
+//     // res.status(200).json({
+//     //   msg: "analytics updated aptly",
+//     //   hits: response,
+//     // })
 
-    res.redirect();
-  } catch (error) {
-    console.log("ERROR: ", error);
+//     res.redirect();
+//   } catch (error) {
+//     console.log("ERROR: ", error);
 
-    res.status(404).json({
-      err: "err hiting url",
-    });
-  }
+//     res.status(404).json({
+//       err: "err hiting url",
+//     });
+//   }
+// }
+
+async function handleAnalytics(req, res) {
+  const shortId = req.params.shortid;
+
+  const response = await Url.findOne({ urlShortId: shortId });
+
+  res.status(200).json({
+    hits: response.urlHistory.length,
+  });
 }
+
 module.exports = {
   handleShortIdGenerator,
   deleteAllUrls,
-  handleShortIdRedirect,
+  handleAnalytics,
 };

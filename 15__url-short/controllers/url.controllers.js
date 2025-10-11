@@ -76,8 +76,14 @@ async function handleAnalytics(req, res) {
   });
 }
 
+async function handleGetAllUrls(req, res) {
+  const response = await Url.find({});
+  res.render("home", { response });
+}
+
 module.exports = {
   handleShortIdGenerator,
   deleteAllUrls,
   handleAnalytics,
+  handleGetAllUrls,
 };

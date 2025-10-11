@@ -4,6 +4,7 @@ const ejs = require("ejs");
 const path = require("path");
 
 const urlRoutes = require("./routes/url.routes.js");
+const staticRoutes = require("./routes/static.routes.js");
 const { connectToMongoDB } = require("./db.js");
 const Url = require("./models/url.model.js");
 
@@ -37,10 +38,7 @@ app.get("/", (req, res) => {
   res.send("Homepage");
 });
 
-app.get("/getall", async (req, res) => {
-  const response = await Url.find({});
-  res.render("home", { response });
-});
+app.get("/getall", staticRoutes);
 
 app.use("/url", urlRoutes);
 

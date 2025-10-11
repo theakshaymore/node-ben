@@ -19,7 +19,7 @@ const urlSchema = new mongoose.Schema(
       },
     ],
   },
-  { timeseries: true }
+  { timestamps: true }
 );
 
 const Url = mongoose.model("url", urlSchema);

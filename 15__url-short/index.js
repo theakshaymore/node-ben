@@ -1,5 +1,7 @@
 const express = require("express");
 const cors = require("cors");
+const ejs = require("ejs");
+const path = require("path");
 
 const urlRoutes = require("./routes/url.routes.js");
 const { connectToMongoDB } = require("./db.js");
@@ -27,6 +29,9 @@ connectToMongoDB(MONGO_URL)
   .catch(() => {
     console.log("ERROR CONNECTING MONGODB!!");
   });
+
+app.set("view engine", "ejs");
+app.set("views", path.resolve("./views"));
 
 app.get("/", (req, res) => {
   res.send("Homepage");

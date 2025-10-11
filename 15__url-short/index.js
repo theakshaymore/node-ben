@@ -37,6 +37,11 @@ app.get("/", (req, res) => {
   res.send("Homepage");
 });
 
+app.get("/getall", async (req, res) => {
+  const response = await Url.find({});
+  res.render("home", { res: response });
+});
+
 app.use("/url", urlRoutes);
 
 app.get("/url/:shortId", async (req, res) => {

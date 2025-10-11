@@ -2,6 +2,7 @@ const express = require("express");
 
 const urlRoutes = require("./routes/url.routes.js");
 const { connectToMongoDB } = require("./db.js");
+const Url = require("./models/url.model.js");
 
 const PORT = 5001;
 const MONGO_URL = "mongodb://127.0.0.1:27017/url-shortner";
@@ -23,6 +24,17 @@ app.get("/", (req, res) => {
 });
 
 app.use("/url", urlRoutes);
+
+app.use("/url/:shortId", async (req, res) => {
+  const shortId = req.params.shortId;
+
+  const response = await Url.findOneAndUpdate(
+    { urlShortId: shortId },
+    { $push: { urlHistory: { timestamp: Date.now() } } }
+  );
+
+  res.redirect(response.urlTarget);
+});
 
 app.listen(PORT, () => {
   console.log(`APP IS RUNNING AT PORT ${PORT}....`);

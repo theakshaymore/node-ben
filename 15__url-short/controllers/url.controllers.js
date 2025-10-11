@@ -11,7 +11,7 @@ async function handleShortIdGenerator(req, res) {
     const response = await Url.create({
       urlShortId: urlId,
       urlTarget: targetUrl,
-      urlHistory: { $push: { timestamp: Date.now() } },
+      // urlHistory: { $push: { timestamp: Date.now() } },
     });
 
     return res.status(200).json({
@@ -38,4 +38,31 @@ async function deleteAllUrls(req, res) {
     });
   }
 }
-module.exports = { handleShortIdGenerator, deleteAllUrls };
+
+async function handleShortIdRedirect(req, res) {
+  try {
+    const shortUrlId = req.params.shortId;
+    const response = await Url.findOneAndDelete(
+      { shortUrlId },
+      { urlHistory: { $push: { timestamp: Date.now() } } }
+    );
+
+    // res.status(200).json({
+    //   msg: "analytics updated aptly",
+    //   hits: response,
+    // })
+
+    res.redirect();
+  } catch (error) {
+    console.log("ERROR: ", error);
+
+    res.status(404).json({
+      err: "err hiting url",
+    });
+  }
+}
+module.exports = {
+  handleShortIdGenerator,
+  deleteAllUrls,
+  handleShortIdRedirect,
+};

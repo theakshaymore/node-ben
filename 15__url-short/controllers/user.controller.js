@@ -1,4 +1,4 @@
-const { setUser } = require("../auth");
+const { setUser, getUser } = require("../auth");
 const User = require("../models/user.model");
 
 async function handleAddUser(req, res) {
@@ -36,6 +36,9 @@ async function handleLoginUser(req, res) {
       },
       { new: true }
     );
+
+    const token = setUser(response);
+    res.cookie("token", token);
 
     res.status(200).json({
       msg: "user login aptly",

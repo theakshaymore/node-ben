@@ -7,10 +7,14 @@ function Login() {
 
   const handleLogin = async (event) => {
     event.preventDefault();
-    const response = await axios.post("http://localhost:5001/auth/login", {
-      email,
-      password,
-    });
+    const response = await axios.post(
+      "http://localhost:5001/auth/login",
+      {
+        email,
+        password,
+      },
+      { withCredentials: true }
+    );
 
     console.log(response.data);
   };

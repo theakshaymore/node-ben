@@ -44,6 +44,7 @@ async function handleLoginUser(req, res) {
       msg: "user login aptly",
       response,
     });
+    res.redirect("/");
   } catch (error) {
     console.log(error);
     return res.status(500).json({

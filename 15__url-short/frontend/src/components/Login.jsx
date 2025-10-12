@@ -16,7 +16,7 @@ function Login() {
       { withCredentials: true }
     );
 
-    console.log(response.data);
+    // console.log(response.data);
   };
 
   return (

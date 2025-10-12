@@ -1,3 +1,4 @@
+const { setUser } = require("../auth");
 const User = require("../models/user.model");
 
 async function handleAddUser(req, res) {
@@ -8,6 +9,10 @@ async function handleAddUser(req, res) {
       email,
       password,
     });
+
+    // JWT
+    const token = setUser(response);
+    res.cookie("token", token);
 
     res.status(200).json({
       msg: "user created aptly",

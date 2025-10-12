@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const ejs = require("ejs");
 const path = require("path");
+const cookieParser = require("cookie-parser");
 
 const urlRoutes = require("./routes/url.routes.js");
 const staticRoutes = require("./routes/static.routes.js");
@@ -16,13 +17,15 @@ const app = express();
 
 app.use(
   cors({
-    origin: "*", // allow all origins (use specific domains in production)
+    origin: "http://localhost:5173",
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
   })
 );
 
 app.use(express.json());
+app.use(cookieParser());
 
 connectToMongoDB(MONGO_URL)
   .then(() => {

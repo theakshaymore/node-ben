@@ -8,13 +8,17 @@ function Signup() {
 
   const handleSignup = async (event) => {
     event.preventDefault();
-    const response = await axios.post("http://localhost:5001/auth/signup", {
-      name,
-      email,
-      password,
-    });
+    const response = await axios.post(
+      "http://localhost:5001/auth/signup",
+      {
+        name,
+        email,
+        password,
+      },
+      { withCredentials: true }
+    );
 
-    console.log(response.data);
+    // console.log(response.data);
   };
 
   return (

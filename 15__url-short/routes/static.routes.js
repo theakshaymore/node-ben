@@ -3,6 +3,6 @@ const { handleGetAllUrls } = require("../controllers/url.controllers");
 
 const router = express.Router();
 
-router.post("/", handleGetAllUrls);
+router.get("/", handleGetAllUrls);
 
 module.exports = router;

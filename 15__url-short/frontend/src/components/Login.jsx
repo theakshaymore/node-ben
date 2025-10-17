@@ -1,22 +1,33 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("pd@gmail.com");
+  const [password, setPassword] = useState("123");
+
+  const navigate = useNavigate();
 
   const handleLogin = async (event) => {
     event.preventDefault();
-    const response = await axios.post(
-      "http://localhost:5001/auth/login",
-      {
-        email,
-        password,
-      },
-      { withCredentials: true }
-    );
+    try {
+      const response = await axios.post(
+        "http://localhost:5001/auth/login",
+        {
+          email,
+          password,
+        },
+        { withCredentials: true }
+      );
 
-    // console.log(response.data);
+      console.log(response.data);
+      navigate("/");
+    } catch (error) {
+      console.log(
+        "FRONTEND: login failed:",
+        error.response?.data || error.message
+      );
+    }
   };
 
   return (

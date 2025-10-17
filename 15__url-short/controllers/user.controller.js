@@ -10,6 +10,12 @@ async function handleSignupUser(req, res) {
       password,
     });
 
+    if (!response) {
+      return res.status(401).json({
+        err: "BACKEND: Invalid email or password",
+      });
+    }
+
     // JWT
     const token = setUser(response);
     res.cookie("user-token", token);
@@ -39,18 +45,18 @@ async function handleLoginUser(req, res) {
       { new: true }
     );
 
+    // JWT
     const token = setUser(response);
-    res.cookie("token", token);
+    res.cookie("user-token", token);
 
-    res.status(200).json({
+    return res.status(200).json({
       msg: "user login aptly",
       response,
     });
-    res.redirect("/");
   } catch (error) {
-    console.log(error);
+    console.log("BACKEND: err in handleLoginUser(): ", error);
     return res.status(500).json({
-      err: "internal server error",
+      err: "BACKEND: err in handleLoginUser()",
     });
   }
 }

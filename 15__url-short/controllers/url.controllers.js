@@ -77,8 +77,19 @@ async function handleAnalytics(req, res) {
 }
 
 async function handleGetAllUrls(req, res) {
-  const response = await Url.find({});
-  res.render("home", { response });
+  try {
+    const response = await Url.find({});
+    // res.render("home", { response });
+    return res.status(200).json({
+      response,
+    });
+  } catch (error) {
+    console.log(error);
+
+    return res.status(400).json({
+      err: "BACKEND: error in handleGetAllUrls()",
+    });
+  }
 }
 
 module.exports = {

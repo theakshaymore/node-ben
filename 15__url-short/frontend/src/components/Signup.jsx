@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 function Signup() {
-  const navigate = useNavigate(); // ← You forgot to call useNavigate!
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -24,7 +24,7 @@ function Signup() {
       console.log(response.data);
       navigate("/");
     } catch (error) {
-      console.error(
+      console.log(
         "FRONTEND: Signup failed:",
         error.response?.data || error.message
       );

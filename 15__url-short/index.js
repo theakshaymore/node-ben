@@ -10,11 +10,13 @@ const userRoutes = require("./routes/user.routes.js");
 const { connectToMongoDB } = require("./db.js");
 const Url = require("./models/url.model.js");
 
+// SECTION:: Constant variables
 const PORT = 5001;
 const MONGO_URL = "mongodb://127.0.0.1:27017/url-shortner";
 
 const app = express();
 
+// SECTION:: middlewares
 app.use(
   cors({
     origin: "http://localhost:5173",
@@ -27,6 +29,7 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 
+// SECTION: DB connection
 connectToMongoDB(MONGO_URL)
   .then(() => {
     console.log("MONGODB CONNECTED...");
@@ -35,9 +38,11 @@ connectToMongoDB(MONGO_URL)
     console.log("ERROR CONNECTING MONGODB!!");
   });
 
+// SECTION: server side rendering
 app.set("view engine", "ejs");
 app.set("views", path.resolve("./views"));
 
+//// SECTION: routes
 app.get("/", (req, res) => {
   res.send("Homepage");
 });
@@ -60,6 +65,7 @@ app.get("/url/:shortId", async (req, res) => {
 
 app.use("/auth", userRoutes);
 
+// SECTION: start the server
 app.listen(PORT, () => {
   console.log(`APP IS RUNNING AT PORT ${PORT}....`);
 });

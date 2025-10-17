@@ -61,4 +61,16 @@ async function handleLoginUser(req, res) {
   }
 }
 
-module.exports = { handleSignupUser, handleLoginUser };
+// TODO:
+async function handleMe(req, res) {
+  const token = req.cookies["user-token"];
+  const data = getUser(token);
+  if (!data) return res.status(401).json({ err: "Not authenticated" });
+
+  const user = await User.findById(data.id).select("-password");
+  if (!user) return res.status(404).json({ err: "User not found" });
+
+  return res.json({ user });
+}
+
+module.exports = { handleSignupUser, handleLoginUser, handleMe };

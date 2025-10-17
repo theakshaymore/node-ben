@@ -4,9 +4,9 @@ import { useNavigate } from "react-router-dom";
 
 function Signup() {
   const navigate = useNavigate();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [name, setName] = useState("test");
+  const [email, setEmail] = useState("test@gmail.com");
+  const [password, setPassword] = useState("1234");
 
   const handleSignup = async (event) => {
     event.preventDefault();

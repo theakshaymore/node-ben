@@ -16,7 +16,7 @@ function Url() {
 
     try {
       setLoading(true);
-      const response = await axios.post("http://localhost:5001/url", {
+      const response = await axios.post("http://localhost:5001/api/url", {
         targetUrl: target,
       });
 

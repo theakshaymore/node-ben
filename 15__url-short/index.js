@@ -46,11 +46,11 @@ app.get("/", (req, res) => {
   res.redirect("/api/url");
 });
 
-app.get("/api/getall", staticRoutes);
+app.get("/getall", staticRoutes);
 
-app.use("/api/url", urlRoutes);
+app.use("/url", urlRoutes);
 
-app.get("/api/url/:shortId", async (req, res) => {
+app.get("/url/:shortId", async (req, res) => {
   const shortId = req.params.shortId;
 
   const response = await Url.findOneAndUpdate(
@@ -62,7 +62,7 @@ app.get("/api/url/:shortId", async (req, res) => {
   res.redirect(response.urlTarget);
 });
 
-app.use("/api/auth", userRoutes);
+app.use("/auth", userRoutes);
 
 // SECTION: start the server
 app.listen(PORT, () => {

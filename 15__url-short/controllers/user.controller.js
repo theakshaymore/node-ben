@@ -37,6 +37,8 @@ async function handleSignupUser(req, res) {
 }
 
 async function handleLoginUser(req, res) {
+  console.log("YOU'RE IN handleLoginUser()");
+
   try {
     const { email, password } = req.body;
     const response = await User.findOne({
@@ -46,7 +48,7 @@ async function handleLoginUser(req, res) {
 
     // JWT
     const token = setUser(response);
-    res.cookie("user-token", token);
+    res.cookie("userjwt", token);
 
     return res.status(200).json({
       msg: "user login aptly",

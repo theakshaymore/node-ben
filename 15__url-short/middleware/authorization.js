@@ -2,16 +2,22 @@ const { getUser } = require("../auth");
 
 async function isAuthenticated(req, res, next) {
   try {
-    const token = req.cookies["user-token"];
+    const authHeader = req.headers["authorization"];
+    let token = null;
+    token = authHeader.split("Bearer ")[1]; // "Bearer 127189hh1s81w71"
 
     if (!token) {
-      return res.status(401).json({ err: "BACKEND: Please login first" });
+      // return res.redirect("/login");
+      console.log("JWT ERROR");
+      return res.status(401).json({ err: "JWT: Please login first" });
     }
 
     const user = getUser(token);
 
     if (!user) {
-      return res.status(401).json({ err: "BACKEND: Invalid or expired token" });
+      return res
+        .status(401)
+        .json({ err: "BACKEND: Invalid or expired jwt token" });
     }
 
     req.user = user; // Attach user info to request
@@ -24,4 +30,4 @@ async function isAuthenticated(req, res, next) {
   }
 }
 
-module.exports = isAuthenticated;
+module.exports = { isAuthenticated };

@@ -9,6 +9,7 @@ const staticRoutes = require("./routes/static.routes.js");
 const userRoutes = require("./routes/user.routes.js");
 const { connectToMongoDB } = require("./db.js");
 const Url = require("./models/url.model.js");
+const { isAuthenticated } = require("./middleware/authorization.js");
 
 // SECTION:: Constant variables
 const PORT = 5002;
@@ -48,7 +49,7 @@ connectToMongoDB(MONGO_URL)
 
 // app.get("/api/getall", staticRoutes);
 
-// app.use("/api/url", urlRoutes);
+app.use("/api/url", urlRoutes);
 
 // app.get("/api/url/:shortId", async (req, res) => {
 //   const shortId = req.params.shortId;

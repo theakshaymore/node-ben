@@ -46,13 +46,18 @@ async function handleLoginUser(req, res) {
       password,
     });
 
+    if (!response)
+      return res.status(404).json({ err: "BACKEND: email/password is wrong" });
+
     // JWT
     const token = setUser(response);
-    res.cookie("userjwt", token);
+    // res.cookie("userjwt", token);
+    // res.json({ token });
 
     return res.status(200).json({
       msg: "user login aptly",
       response,
+      token,
     });
   } catch (error) {
     console.log("BACKEND: err in handleLoginUser(): ", error);

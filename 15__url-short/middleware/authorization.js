@@ -30,4 +30,25 @@ async function isAuthenticated(req, res, next) {
   }
 }
 
-module.exports = { isAuthenticated };
+async function isAdmin(req, res, next) {
+  try {
+    const user = req.user;
+    if (!user) {
+      return res.status(401).json({ err: "BACKEND: err in isAdmin()" });
+    }
+
+    if (user.role !== "ADMIN") {
+      return res
+        .status(403)
+        .json({ err: "BACKEND: Access denied: Admins only" });
+    }
+    next();
+  } catch (error) {
+    console.log("BACKEND: err in isAdmin(): ", error);
+    return res.status(404).json({
+      err: "BACKEND: err in isAdmin()",
+    });
+  }
+}
+
+module.exports = { isAuthenticated, isAdmin };

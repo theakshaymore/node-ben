@@ -3,8 +3,9 @@ const {
   handleShortIdGenerator,
   deleteAllUrls,
   handleAnalytics,
+  handleGetAllUrls,
 } = require("../controllers/url.controllers.js");
-const { isAuthenticated } = require("../middleware/authorization.js");
+const { isAuthenticated, isAdmin } = require("../middleware/authorization.js");
 
 const router = express.Router();
 
@@ -16,11 +17,14 @@ router.get("/analytics/:shortid", isAuthenticated, handleAnalytics);
 
 router.delete("/", isAuthenticated, deleteAllUrls);
 
-// REMOVE-LATER:
+// TODO:
 router.get("/", isAuthenticated, (req, res) => {
   res.json({
     msg: "you're in /url get route",
   });
 });
+
+// TODO:
+router.get("/admin", isAuthenticated, isAdmin, handleGetAllUrls);
 
 module.exports = router;

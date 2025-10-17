@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import ListURLs from "./ListURLs";
 
 function Url() {
   const [target, setTarget] = useState("");
@@ -64,6 +65,11 @@ function Url() {
             </a>
           </div>
         )}
+      </div>
+
+      <hr />
+      <div style={{ marginTop: 20 }}>
+        <ListURLs />
       </div>
     </div>
   );

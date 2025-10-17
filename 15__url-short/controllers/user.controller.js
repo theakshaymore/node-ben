@@ -2,6 +2,8 @@ const { setUser, getUser } = require("../auth");
 const User = require("../models/user.model");
 
 async function handleSignupUser(req, res) {
+  console.log("hshshshhshsh");
+
   try {
     const { name, email, password } = req.body;
     const response = await User.create({
@@ -37,13 +39,10 @@ async function handleSignupUser(req, res) {
 async function handleLoginUser(req, res) {
   try {
     const { email, password } = req.body;
-    const response = await User.findOne(
-      {
-        email,
-        password,
-      },
-      { new: true }
-    );
+    const response = await User.findOne({
+      email,
+      password,
+    });
 
     // JWT
     const token = setUser(response);
@@ -61,7 +60,7 @@ async function handleLoginUser(req, res) {
   }
 }
 
-// TODO:
+// REMOVE-LATER:
 async function handleMe(req, res) {
   const token = req.cookies["user-token"];
   const data = getUser(token);

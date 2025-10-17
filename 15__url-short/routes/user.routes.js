@@ -11,7 +11,9 @@ router.post("/signup", handleSignupUser);
 
 router.post("/login", handleLoginUser);
 
-// TODO:
+// REMOVE-LATER:
 router.get("/me", handleMe);
+
+router.post("/_ping", (req, res) => res.json({ ok: true }));
 
 module.exports = router;

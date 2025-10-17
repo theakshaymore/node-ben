@@ -12,7 +12,7 @@ function Login() {
     event.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:5001/auth/login",
+        `${import.meta.env.VITE_BACKEND_API}/auth/login`,
         {
           email,
           password,
@@ -20,8 +20,8 @@ function Login() {
         { withCredentials: true }
       );
 
-      // console.log(response.data);
-      navigate("/", { replace: true });
+      console.log(response.data);
+      navigate("/url", { replace: true });
     } catch (error) {
       console.log(
         "FRONTEND: login failed:",

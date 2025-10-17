@@ -12,7 +12,7 @@ function Signup() {
     event.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:5001/auth/signup",
+        `${import.meta.env.VITE_BACKEND_API}/auth/signup`,
         {
           name,
           email,
@@ -22,7 +22,7 @@ function Signup() {
       );
 
       console.log(response.data);
-      navigate("/", { replace: true });
+      navigate("/url", { replace: true });
     } catch (error) {
       console.log(
         "FRONTEND: Signup failed:",

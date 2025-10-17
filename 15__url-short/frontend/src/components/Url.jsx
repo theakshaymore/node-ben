@@ -16,9 +16,11 @@ function Url() {
 
     try {
       setLoading(true);
-      const response = await axios.post("http://localhost:5001/api/url", {
-        targetUrl: target,
-      });
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_API}/url`,
+        { targetUrl: target },
+        { withCredentials: true }
+      );
 
       // server returns { shortUrl, data, ... }
       setShortUrl(response.data.shortUrl);

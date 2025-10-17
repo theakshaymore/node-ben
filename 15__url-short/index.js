@@ -43,14 +43,14 @@ app.set("views", path.resolve("./views"));
 
 //// SECTION: routes
 app.get("/", (req, res) => {
-  res.send("Homepage");
+  res.redirect("/api/url");
 });
 
-app.get("/getall", staticRoutes);
+app.get("/api/getall", staticRoutes);
 
-app.use("/url", urlRoutes);
+app.use("/api/url", urlRoutes);
 
-app.get("/url/:shortId", async (req, res) => {
+app.get("/api/url/:shortId", async (req, res) => {
   const shortId = req.params.shortId;
 
   const response = await Url.findOneAndUpdate(
@@ -62,7 +62,7 @@ app.get("/url/:shortId", async (req, res) => {
   res.redirect(response.urlTarget);
 });
 
-app.use("/auth", userRoutes);
+app.use("/api/auth", userRoutes);
 
 // SECTION: start the server
 app.listen(PORT, () => {

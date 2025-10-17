@@ -20,8 +20,8 @@ function Login() {
         { withCredentials: true }
       );
 
-      console.log(response.data);
-      navigate("/");
+      // console.log(response.data);
+      navigate("/", { replace: true });
     } catch (error) {
       console.log(
         "FRONTEND: login failed:",

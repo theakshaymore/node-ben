@@ -1,23 +1,27 @@
-const User = require("../models/user.model");
 const { getUser } = require("../auth");
 
-async function isAuthorized(req, res, next) {
+async function isAuthenticated(req, res, next) {
   try {
-    const token = req.cookies?.token;
-    if (!token) return res.status(401).json({ msg: "unauthorized: no token" });
+    const token = req.cookies["user-token"];
 
-    const payload = getUser(token);
-    if (!payload) return res.status(401).json({ msg: "invalid/expired token" });
+    if (!token) {
+      return res.status(401).json({ err: "BACKEND: Please login first" });
+    }
 
-    const user = await User.findById(payload.id).select("-password");
-    if (!user) return res.status(401).json({ msg: "user not found" });
+    const user = getUser(token);
 
-    req.user = user;
-    return next();
+    if (!user) {
+      return res.status(401).json({ err: "BACKEND: Invalid or expired token" });
+    }
+
+    req.user = user; // Attach user info to request
+    next();
   } catch (error) {
-    console.error("isAuthorized error:", error);
-    return res.status(500).json({ msg: "server error" });
+    console.log("BACKEND: err in isAuthenticated(): ", error);
+    return res.status(404).json({
+      err: "BACKEND: err in isAuthenticated()",
+    });
   }
 }
 
-module.exports = isAuthorized;
+module.exports = isAuthenticated;

@@ -22,7 +22,7 @@ function Signup() {
       );
 
       console.log(response.data);
-      navigate("/");
+      navigate("/", { replace: true });
     } catch (error) {
       console.log(
         "FRONTEND: Signup failed:",

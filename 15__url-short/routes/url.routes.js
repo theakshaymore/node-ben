@@ -4,15 +4,16 @@ const {
   deleteAllUrls,
   handleAnalytics,
 } = require("../controllers/url.controllers.js");
+const isAuthenticated = require("../middleware/authorization.js");
 
 const router = express.Router();
 
-router.post("/", handleShortIdGenerator);
+router.post("/", isAuthenticated, handleShortIdGenerator);
 
-router.get("/analytics/:shortid", handleAnalytics);
+router.get("/analytics/:shortid", isAuthenticated, handleAnalytics);
 
 // router.get("/:shortId", handleShortIdRedirect);
 
-router.delete("/", deleteAllUrls);
+router.delete("/", isAuthenticated, deleteAllUrls);
 
 module.exports = router;

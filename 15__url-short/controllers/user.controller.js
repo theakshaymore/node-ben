@@ -1,7 +1,7 @@
 const { setUser, getUser } = require("../auth");
 const User = require("../models/user.model");
 
-async function handleAddUser(req, res) {
+async function handleSignupUser(req, res) {
   try {
     const { name, email, password } = req.body;
     const response = await User.create({
@@ -12,16 +12,18 @@ async function handleAddUser(req, res) {
 
     // JWT
     const token = setUser(response);
-    res.cookie("token", token);
+    res.cookie("user-token", token);
 
-    res.status(200).json({
+    return res.status(200).json({
       msg: "user created aptly",
       response,
     });
+
+    // res.redirect("/url");
   } catch (error) {
-    console.error("handleAddUser error:", error);
+    console.log("BACKEND: ERROR IN handleSignupUser(): ", error);
     return res.status(500).json({
-      err: "internal server error",
+      err: "ERROR IN handleSignupUser()",
     });
   }
 }
@@ -53,4 +55,4 @@ async function handleLoginUser(req, res) {
   }
 }
 
-module.exports = { handleAddUser, handleLoginUser };
+module.exports = { handleSignupUser, handleLoginUser };

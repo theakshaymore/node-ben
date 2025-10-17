@@ -1,24 +1,34 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Signup() {
+  const navigate = useNavigate(); // ← You forgot to call useNavigate!
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSignup = async (event) => {
     event.preventDefault();
-    const response = await axios.post(
-      "http://localhost:5001/auth/signup",
-      {
-        name,
-        email,
-        password,
-      },
-      { withCredentials: true }
-    );
+    try {
+      const response = await axios.post(
+        "http://localhost:5001/auth/signup",
+        {
+          name,
+          email,
+          password,
+        },
+        { withCredentials: true }
+      );
 
-    // console.log(response.data);
+      console.log(response.data);
+      navigate("/");
+    } catch (error) {
+      console.error(
+        "FRONTEND: Signup failed:",
+        error.response?.data || error.message
+      );
+    }
   };
 
   return (
@@ -34,13 +44,13 @@ function Signup() {
           onChange={(event) => setName(event.target.value)}
         />
         <input
-          type="text"
+          type="email"
           placeholder="enter email"
           value={email}
           onChange={(event) => setEmail(event.target.value)}
         />
         <input
-          type="text"
+          type="password"
           placeholder="enter password"
           value={password}
           onChange={(event) => setPassword(event.target.value)}

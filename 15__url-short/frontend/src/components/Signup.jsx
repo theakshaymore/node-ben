@@ -24,10 +24,7 @@ function Signup() {
       console.log(response.data);
       navigate("/url", { replace: true });
     } catch (error) {
-      console.log(
-        "FRONTEND: Signup failed:",
-        error.response?.data || error.message
-      );
+      console.log(error.response?.data?.err);
     }
   };
 

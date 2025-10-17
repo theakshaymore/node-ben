@@ -2,7 +2,7 @@ const { setUser, getUser } = require("../auth");
 const User = require("../models/user.model");
 
 async function handleSignupUser(req, res) {
-  console.log("hshshshhshsh");
+  console.log("YOU'RE IN handleSignupUser()");
 
   try {
     const { name, email, password } = req.body;
@@ -14,13 +14,13 @@ async function handleSignupUser(req, res) {
 
     if (!response) {
       return res.status(401).json({
-        err: "BACKEND: Invalid email or password",
+        err: "BACKEND: err creating user",
       });
     }
 
     // JWT
     const token = setUser(response);
-    res.cookie("user-token", token);
+    res.cookie("userjwt", token);
 
     return res.status(200).json({
       msg: "user created aptly",
@@ -60,16 +60,4 @@ async function handleLoginUser(req, res) {
   }
 }
 
-// REMOVE-LATER:
-async function handleMe(req, res) {
-  const token = req.cookies["user-token"];
-  const data = getUser(token);
-  if (!data) return res.status(401).json({ err: "Not authenticated" });
-
-  const user = await User.findById(data.id).select("-password");
-  if (!user) return res.status(404).json({ err: "User not found" });
-
-  return res.json({ user });
-}
-
-module.exports = { handleSignupUser, handleLoginUser, handleMe };
+module.exports = { handleSignupUser, handleLoginUser };

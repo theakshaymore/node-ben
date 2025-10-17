@@ -38,38 +38,31 @@ connectToMongoDB(MONGO_URL)
   });
 
 // SECTION: server side rendering
-app.set("view engine", "ejs");
-app.set("views", path.resolve("./views"));
+// app.set("view engine", "ejs");
+// app.set("views", path.resolve("./views"));
 
 // SECTION: routes
 // app.get("/", (req, res) => {
 //   res.redirect("/api/url");
 // });
 
-app.get("/api/getall", staticRoutes);
+// app.get("/api/getall", staticRoutes);
 
-app.use("/api/url", urlRoutes);
+// app.use("/api/url", urlRoutes);
 
-app.get("/api/url/:shortId", async (req, res) => {
-  const shortId = req.params.shortId;
+// app.get("/api/url/:shortId", async (req, res) => {
+//   const shortId = req.params.shortId;
 
-  const response = await Url.findOneAndUpdate(
-    { urlShortId: shortId },
-    { $push: { urlHistory: { timestamp: Date.now() } } },
-    { new: true }
-  );
+//   const response = await Url.findOneAndUpdate(
+//     { urlShortId: shortId },
+//     { $push: { urlHistory: { timestamp: Date.now() } } },
+//     { new: true }
+//   );
 
-  res.redirect(response.urlTarget);
-});
+//   res.redirect(response.urlTarget);
+// });
 
 app.use("/api/auth", userRoutes);
-
-// REMOVE-LATER:
-app.get("/api/f", (req, res) => {
-  res.send("kksksksksk");
-});
-const listEndpoints = require("express-list-endpoints");
-console.log(listEndpoints(app));
 
 // SECTION: start the server
 app.listen(PORT, () => {

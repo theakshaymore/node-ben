@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ListURLs from "./ListURLs";
 
@@ -7,6 +7,7 @@ function Url() {
   const [shortUrl, setShortUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
 
   async function handleClick() {
     setErr("");
@@ -37,6 +38,21 @@ function Url() {
       setLoading(false);
     }
   }
+
+  useEffect(async () => {
+    try {
+      const response = axios.get(
+        `${import.meta.env.VITE_BACKEND_API}/auth/whoami`,
+        {
+          withCredentials: true,
+        }
+      );
+
+      if (response.data.user.role === "ADMIN") setAdmin(true);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
 
   return (
     <div style={{ padding: 20 }}>
@@ -69,7 +85,7 @@ function Url() {
 
       <hr />
       <div style={{ marginTop: 20 }}>
-        <ListURLs />
+         {isAdmin && <ListURLs /> }
       </div>
     </div>
   );

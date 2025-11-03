@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../../utils/config.js";
+
+// import  "../../../public/login_svg.svg"
 
 function Login() {
   //
@@ -8,6 +11,8 @@ function Login() {
   const [password, setPassword] = useState("1234");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -23,6 +28,7 @@ function Login() {
       );
       setLoading(false);
       setMessage(true);
+      navigate("/home", { replace: true });
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -30,7 +36,7 @@ function Login() {
   };
 
   return (
-    <div className="flex w-full m-5">
+    <div className="flex w-full m-5 h-screen">
       <div className="card bg-base-300 rounded-box grid grow place-items-center p-8">
         <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
           <legend className="fieldset-legend">Login</legend>
@@ -96,12 +102,9 @@ function Login() {
       </div>
       <div className="divider divider-horizontal"></div>
 
-      <div className="card bg-base-300 rounded-box grow overflow-hidden">
-        <img
-          src="https://images.pexels.com/photos/29234361/pexels-photo-29234361.jpeg"
-          alt=""
-          className="w-full h-full object-cover"
-        />
+      {/* Added max-h-screen to limit image container height */}
+      <div className="card bg-base-300 rounded-box grow overflow-hidden max-h-screen">
+        <img src="/thelost.png" alt="" className="w-full h-full object-cover" />
       </div>
     </div>
   );

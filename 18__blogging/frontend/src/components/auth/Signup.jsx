@@ -1,14 +1,18 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../../utils/config.js";
 
 function Signup() {
   //
+
   const [fullName, setFullName] = useState("akshay more");
   const [email, setEmail] = useState("akshay@gmail.com");
   const [password, setPassword] = useState("1234");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleSignup = async (event) => {
     event.preventDefault();
@@ -25,6 +29,7 @@ function Signup() {
       );
       setLoading(false);
       setMessage(true);
+      navigate("/home", { replace: true });
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -107,11 +112,7 @@ function Signup() {
       <div className="divider divider-horizontal"></div>
 
       <div className="card bg-base-300 rounded-box grow overflow-hidden">
-        <img
-          src="https://images.pexels.com/photos/10566230/pexels-photo-10566230.jpeg"
-          alt=""
-          className="w-full h-full object-cover"
-        />
+        <img src="/thelost.png" alt="" className="w-full h-full object-cover" />
       </div>
     </div>
   );

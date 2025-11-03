@@ -1,6 +1,7 @@
 import React from "react";
 import Navbar from "./components/Navbar";
 import Signup from "./components/auth/Signup";
+import Login from "./components/auth/Login";
 
 function App() {
   return (
@@ -8,7 +9,8 @@ function App() {
       <Navbar />
 
       <h1>Ben Blogify</h1>
-      <Signup />
+      {/* <Signup /> */}
+      <Login />
     </>
   );
 }

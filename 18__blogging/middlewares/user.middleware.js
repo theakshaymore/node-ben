@@ -12,8 +12,23 @@ async function handleSignup(req, res) {
     res.redirect("/");
   } catch (error) {
     console.log("ERR at handleSignup() ", error);
-    res.redirect("/");
   }
 }
 
-export { handleSignup };
+async function handleLogin(req, res) {
+  //
+
+  const { email, password } = req.body;
+
+  try {
+    const respopnse = await User.findOne({ email, password });
+    if (!respopnse) {
+      console.log("error checking user in DB");
+    }
+    res.redirect("/");
+  } catch (error) {
+    console.log("ERR at handleLogin() ", error);
+  }
+}
+
+export { handleSignup, handleLogin };

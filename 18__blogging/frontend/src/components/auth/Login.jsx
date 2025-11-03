@@ -2,22 +2,20 @@ import React, { useState } from "react";
 import axios from "axios";
 import { BACKEND_URL } from "../../utils/config.js";
 
-function Signup() {
+function Login() {
   //
-  const [fullName, setFullName] = useState("akshay more");
   const [email, setEmail] = useState("akshay@gmail.com");
   const [password, setPassword] = useState("1234");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(false);
 
-  const handleSignup = async (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault();
     try {
       setLoading(true);
       const response = await axios.post(
-        `${BACKEND_URL}/user/signup`,
+        `${BACKEND_URL}/user/login`,
         {
-          fullName,
           email,
           password,
         },
@@ -35,17 +33,8 @@ function Signup() {
     <div className="flex w-full m-5">
       <div className="card bg-base-300 rounded-box grid grow place-items-center p-8">
         <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
-          <legend className="fieldset-legend">Signup</legend>
-          <form onSubmit={handleSignup}>
-            <label className="label">Full Name</label>
-            <input
-              type="text"
-              className="input"
-              placeholder="Full Name"
-              value={fullName}
-              onChange={(event) => setFullName(event.target.value)}
-            />
-
+          <legend className="fieldset-legend">Login</legend>
+          <form onSubmit={handleLogin}>
             <label className="label">Email</label>
             <input
               type="email"
@@ -64,7 +53,7 @@ function Signup() {
               onChange={(event) => setPassword(event.target.value)}
             />
 
-            <button className="btn btn-neutral mt-4">Signup</button>
+            <button className="btn btn-neutral mt-4">Login</button>
           </form>
           {loading && (
             <div role="alert" className="alert alert-success">
@@ -84,6 +73,7 @@ function Signup() {
               <span>Signing in.......</span>
             </div>
           )}
+
           {message && (
             <div role="alert" className="alert alert-info">
               <svg
@@ -99,7 +89,7 @@ function Signup() {
                   d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                 ></path>
               </svg>
-              <span>Signup Successfull.</span>
+              <span>Login Successfull.</span>
             </div>
           )}
         </fieldset>
@@ -108,7 +98,7 @@ function Signup() {
 
       <div className="card bg-base-300 rounded-box grow overflow-hidden">
         <img
-          src="https://images.pexels.com/photos/10566230/pexels-photo-10566230.jpeg"
+          src="https://images.pexels.com/photos/29234361/pexels-photo-29234361.jpeg"
           alt=""
           className="w-full h-full object-cover"
         />
@@ -117,4 +107,4 @@ function Signup() {
   );
 }
 
-export default Signup;
+export default Login;

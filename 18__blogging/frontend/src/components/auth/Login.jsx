@@ -3,8 +3,6 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../../utils/config.js";
 
-// import  "../../../public/login_svg.svg"
-
 function Login() {
   //
   const [email, setEmail] = useState("akshay@gmail.com");

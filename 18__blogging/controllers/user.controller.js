@@ -36,12 +36,22 @@ async function handleSignup(req, res) {
 
 async function handleLogin(req, res) {
   const { email, password } = req.body;
+
   try {
-    const respopnse = await User.findOne({ email, password });
-    if (!respopnse) {
-      console.log("error checking user in DB");
+    // const respopnse = await User.findOne({ email, password });
+    // if (!respopnse) {
+    //   console.log("error checking user in DB");
+    // }
+    // res.redirect("/login");
+
+    const response = await User.matchPassword(email, password);
+
+    if (!response) {
+      console.log("issieueueueueue");
+      res.redirect("/login");
     }
-    res.redirect("/login");
+    console.log(response);
+    res.redirect("/");
   } catch (error) {
     console.log("ERR at handleLogin() ", error);
   }

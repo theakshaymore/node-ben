@@ -26,7 +26,7 @@ function Login() {
       );
       setLoading(false);
       setMessage(true);
-      navigate("/home", { replace: true });
+      navigate("/", { replace: true });
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -102,7 +102,7 @@ function Login() {
 
       {/* Added max-h-screen to limit image container height */}
       <div className="card bg-base-300 rounded-box grow overflow-hidden max-h-screen">
-        <img src="/thelost.png" alt="" className="w-full h-full object-cover" />
+        <img src="/herp.jpg" alt="" className="w-full h-full object-cover" />
       </div>
     </div>
   );

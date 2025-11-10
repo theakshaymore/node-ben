@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../../utils/config.js";
@@ -10,12 +10,25 @@ function Signup() {
   const [email, setEmail] = useState("akshay@gmail.com");
   const [password, setPassword] = useState("1234");
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState(false);
+  const [error, setError] = useState("");
+  const [toast, setToast] = useState("");
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (toast) {
+      const timer = setTimeout(() => {
+        setToast("");
+      }, 3000);
+
+      return () => clearTimeout(timer); // Cleanup timer
+    }
+  }, [toast]);
+
   const handleSignup = async (event) => {
     event.preventDefault();
+    setError("");
+    setToast("");
     try {
       setLoading(true);
       const response = await axios.post(
@@ -28,11 +41,18 @@ function Signup() {
         { withCredentials: true }
       );
       setLoading(false);
-      setMessage(true);
-      navigate("/home", { replace: true });
+      if (response.data.success) {
+        setToast(response.data.msg);
+        // Navigate after showing success message
+        setTimeout(() => {
+          navigate("/", { replace: true });
+        }, 1500);
+      }
     } catch (error) {
-      console.log(error);
       setLoading(false);
+      console.log(error);
+      setToast("Signup failed");
+      setError("Signup failed");
     }
   };
 
@@ -89,7 +109,7 @@ function Signup() {
               <span>Signing in.......</span>
             </div>
           )}
-          {message && (
+          {/* {error && (
             <div role="alert" className="alert alert-info">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -104,7 +124,17 @@ function Signup() {
                   d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                 ></path>
               </svg>
-              <span>Signup Successfull.</span>
+              <span>{error}</span>
+            </div>
+          )} */}
+          {/* Toast notification - shown when toast has value */}
+          {toast && (
+            <div className="toast toast-top toast-center">
+              <div
+                className={`alert ${error ? "alert-error" : "alert-success"}`}
+              >
+                <span>{toast}</span>
+              </div>
             </div>
           )}
         </fieldset>
@@ -112,7 +142,7 @@ function Signup() {
       <div className="divider divider-horizontal"></div>
 
       <div className="card bg-base-300 rounded-box grow overflow-hidden">
-        <img src="/thelost.png" alt="" className="w-full h-full object-cover" />
+        <img src="/herp.jpg" alt="" className="w-full h-full object-cover" />
       </div>
     </div>
   );

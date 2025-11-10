@@ -66,9 +66,10 @@ userSchema.static("matchPassword", async function (email, password) {
     .update(password)
     .digest("hex");
 
-  if (userProvidedHasedPassword == passwordFromDB) {
+  if (userProvidedHasedPassword === passwordFromDB) {
     return { ...response, password: undefined, salt: undefined };
   }
+  return false;
 });
 
 const User = model("user", userSchema);

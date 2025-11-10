@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../../utils/config.js";
@@ -9,13 +9,26 @@ function Login() {
   const [password, setPassword] = useState("1234");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(false);
+  const [error, setError] = useState("");
+  const [toast, setToast] = useState("");
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (toast) {
+      const timer = setTimeout(() => {
+        setToast("");
+      }, 3000);
+
+      return () => clearTimeout(timer); // Cleanup timer
+    }
+  }, [toast]);
+
   const handleLogin = async (event) => {
     event.preventDefault();
+    setLoading(true);
+    setError("");
     try {
-      setLoading(true);
       const response = await axios.post(
         `${BACKEND_URL}/user/login`,
         {
@@ -24,12 +37,19 @@ function Login() {
         },
         { withCredentials: true }
       );
+
       setLoading(false);
-      setMessage(true);
-      navigate("/", { replace: true });
+      if (response.data.success) {
+        setToast(`${response.data.msg}. redirecting...`);
+        setTimeout(() => {
+          navigate("/", { replace: true });
+        }, 1500);
+      }
     } catch (error) {
-      console.log(error);
       setLoading(false);
+      console.log(error);
+      setToast("Login failed");
+      setError("Signup failed");
     }
   };
 
@@ -78,7 +98,7 @@ function Login() {
             </div>
           )}
 
-          {message && (
+          {/* {message && (
             <div role="alert" className="alert alert-info">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -94,6 +114,16 @@ function Login() {
                 ></path>
               </svg>
               <span>Login Successfull.</span>
+            </div>
+          )} */}
+
+          {toast && (
+            <div className="toast toast-top toast-center">
+              <div
+                className={`alert ${error ? "alert-error" : "alert-success"}`}
+              >
+                <span>{toast}</span>
+              </div>
             </div>
           )}
         </fieldset>

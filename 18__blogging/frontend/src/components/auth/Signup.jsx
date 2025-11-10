@@ -42,7 +42,7 @@ function Signup() {
       );
       setLoading(false);
       if (response.data.success) {
-        setToast(response.data.msg);
+        setToast(`${response.data.msg}. redirecting...`);
         // Navigate after showing success message
         setTimeout(() => {
           navigate("/", { replace: true });

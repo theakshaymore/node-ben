@@ -38,22 +38,25 @@ async function handleLogin(req, res) {
   const { email, password } = req.body;
 
   try {
-    // const respopnse = await User.findOne({ email, password });
-    // if (!respopnse) {
-    //   console.log("error checking user in DB");
-    // }
-    // res.redirect("/login");
-
     const response = await User.matchPassword(email, password);
 
     if (!response) {
-      console.log("issieueueueueue");
-      res.redirect("/login");
+      return res.status(400).json({
+        success: false,
+        msg: "password is wrong",
+      });
     }
-    console.log(response);
-    res.redirect("/");
+
+    res.status(200).json({
+      success: true,
+      msg: "login successful",
+      user: response,
+    });
   } catch (error) {
-    console.log("ERR at handleLogin() ", error);
+    res.status(500).json({
+      success: false,
+      message: "Server error. Please try again later.",
+    });
   }
 }
 

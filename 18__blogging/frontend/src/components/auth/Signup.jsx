@@ -142,7 +142,11 @@ function Signup() {
       <div className="divider divider-horizontal"></div>
 
       <div className="card bg-base-300 rounded-box grow overflow-hidden">
-        <img src="/herp.jpg" alt="" className="w-full h-full object-cover" />
+        <img
+          src="/small-image.jpg"
+          alt=""
+          className="w-full h-full object-cover"
+        />
       </div>
     </div>
   );

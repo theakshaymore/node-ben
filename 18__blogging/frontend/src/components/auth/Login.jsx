@@ -54,7 +54,7 @@ function Login() {
   };
 
   return (
-    <div className="flex w-full m-5 h-screen">
+    <div className="flex w-full m-5">
       <div className="card bg-base-300 rounded-box grid grow place-items-center p-8">
         <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
           <legend className="fieldset-legend">Login</legend>
@@ -70,7 +70,7 @@ function Login() {
 
             <label className="label">Password</label>
             <input
-              type="text"
+              type="password"
               className="input"
               placeholder="Password"
               value={password}
@@ -98,25 +98,6 @@ function Login() {
             </div>
           )}
 
-          {/* {message && (
-            <div role="alert" className="alert alert-info">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                className="h-6 w-6 shrink-0 stroke-current"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                ></path>
-              </svg>
-              <span>Login Successfull.</span>
-            </div>
-          )} */}
-
           {toast && (
             <div className="toast toast-top toast-center">
               <div
@@ -130,13 +111,9 @@ function Login() {
       </div>
       <div className="divider divider-horizontal"></div>
 
-      {/* Added max-h-screen to limit image container height */}
-      <div className="card bg-base-300 rounded-box grow overflow-hidden max-h-screen">
-        <img
-          src="/small-image.jpg"
-          alt=""
-          className="w-full h-full object-cover"
-        />
+      {/* Removed max-h-screen, added h-96 for fixed height */}
+      <div className="card bg-base-300 rounded-box grow overflow-hidden h-96">
+        <img src="/herp.jpg" alt="" className="w-full h-full object-cover" />
       </div>
     </div>
   );

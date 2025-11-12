@@ -4,11 +4,12 @@ const SECRET = "MONICA";
 
 function createToken(user) {
   const payload = {
-    fullname: user.fullname,
+    _id: user._id,
     email: user.email,
     profileurl: user.profileurl,
     role: user.role,
   };
+  ss;
 
   const token = JWT.sign(payload, SECRET);
 

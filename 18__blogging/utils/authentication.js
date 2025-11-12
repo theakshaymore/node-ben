@@ -2,7 +2,7 @@ import JWT from "jsonwebtoken";
 
 const SECRET = "MONICA";
 
-function createToken(user) {
+function createJWTToken(user) {
   const payload = {
     _id: user._id,
     email: user.email,
@@ -16,7 +16,7 @@ function createToken(user) {
   return token;
 }
 
-function verifyToken(token) {
+function verifyJWTToken(token) {
   const token = JWT.verify(token, SECRET);
   return token;
 }

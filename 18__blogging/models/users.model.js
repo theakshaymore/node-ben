@@ -67,7 +67,13 @@ userSchema.static("matchPassword", async function (email, password) {
     .digest("hex");
 
   if (userProvidedHasedPassword === passwordFromDB) {
-    return { ...response, password: undefined, salt: undefined };
+    return {
+      _id: response._id,
+      email: response.email,
+      fullname: response.fullname,
+      profileurl: response.profileurl,
+      role: response.role,
+    };
   }
   return false;
 });

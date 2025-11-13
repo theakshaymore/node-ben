@@ -1,17 +1,25 @@
-import { verifyJwtToken } from "../utils/authentication";
+import { verifyJwtToken } from "../utils/authentication.js";
 
-async function isAuthenticated(cookieName) {
+function isAuthenticated(cookieName) {
   return (req, res, next) => {
     const token = req.cookies[cookieName];
     if (!token) {
-      next();
+      return res.status(401).json({
+        success: false,
+        msg: "Authentication required - no token",
+      });
     }
 
     try {
       const payload = verifyJwtToken(token);
       req.user = payload;
-    } catch (error) {}
-    next();
+      next();
+    } catch (error) {
+      return res.status(401).json({
+        success: false,
+        msg: "Invalid or expired token",
+      });
+    }
   };
 }
 

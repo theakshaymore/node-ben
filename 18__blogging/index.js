@@ -38,11 +38,14 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(isAuthenticated("token"));
 
 // routes
-app.get("/", (req, res) => {
-  res.send("Welcome to homepage");
+app.get("/api/", isAuthenticated("token"), (req, res) => {
+  res
+    .json({
+      user: req.user,
+    })
+    .send("Welcome to homepage");
 });
 
 app.use("/api/user", userRoute);

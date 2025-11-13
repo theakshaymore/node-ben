@@ -38,7 +38,6 @@ async function handleSignup(req, res) {
 
 async function handleLogin(req, res) {
   const { email, password } = req.body;
-  console.log("=== LOGIN REQUEST RECEIVED ===", email);
 
   try {
     const response = await User.matchPassword(email, password);
@@ -49,7 +48,7 @@ async function handleLogin(req, res) {
         msg: "password is wrong",
       });
     }
-    console.log("User response:", response);
+
     const jwtToken = createJwtToken(response);
     console.log("TOKEN " + jwtToken);
 

@@ -9,7 +9,7 @@ import userRoute from "./routes/user.route.js";
 const app = express();
 
 // constant variables
-const PORT = 7000;
+const PORT = 7800;
 const MONGO_URL = "mongodb://127.0.0.1:27017/everblog";
 
 // DB connect

@@ -65,7 +65,6 @@ async function handleLogin(req, res) {
       user: response,
       token: jwtToken,
     });
-    f;
   } catch (error) {
     console.log("ERROR:", error);
     res.status(500).json({

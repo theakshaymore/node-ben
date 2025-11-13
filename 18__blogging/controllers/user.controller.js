@@ -59,12 +59,13 @@ async function handleLogin(req, res) {
       });
     }
 
-    res.status(200).json({
+    res.cookie("token", jwtToken).status(200).json({
       success: true,
       msg: "login successful",
       user: response,
       token: jwtToken,
     });
+    f;
   } catch (error) {
     console.log("ERROR:", error);
     res.status(500).json({

@@ -20,7 +20,11 @@ function App() {
 
   useEffect(() => {
     const fetchUser = async () => {
-      dispatch(setLoading(ture));
+      dispatch(setLoading(true));
+
+      // Add artificial delay to see skeleton
+      await new Promise((resolve) => setTimeout(resolve, 2000)); // 2 second delay
+
       try {
         const response = await axios.get(BACKEND_URL, {
           withCredentials: true,

@@ -50,7 +50,7 @@ async function handleLogin(req, res) {
     }
 
     const jwtToken = createJwtToken(response);
-    console.log("TOKEN " + jwtToken);
+    // console.log("TOKEN " + jwtToken);
 
     if (!jwtToken) {
       return res.status(400).json({

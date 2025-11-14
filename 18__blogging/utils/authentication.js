@@ -6,6 +6,7 @@ function createJwtToken(user) {
   const payload = {
     _id: user._id,
     email: user.email,
+    fullname: user.fullname,
     profileurl: user.profileurl,
     role: user.role,
   };

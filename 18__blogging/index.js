@@ -41,11 +41,9 @@ app.use(cookieParser());
 
 // routes
 app.get("/api/", isAuthenticated("token"), (req, res) => {
-  res
-    .json({
-      user: req.user,
-    })
-    .send("Welcome to homepage");
+  res.json({
+    user: req.user,
+  });
 });
 
 app.use("/api/user", userRoute);

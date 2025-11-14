@@ -43,11 +43,14 @@ function Home() {
       <div className="hero-content text-center">
         <div className="max-w-md">
           <h1 className="text-5xl font-bold">
-            Hello {user ? user.email : "there"}
+            Hello {user ? user.fullname : "there"}
           </h1>
           <p className="py-6">
             {user ? (
-              <>Welcome back! Your profile picture: {user.profileurl}</>
+              <>
+                <span>Welcome back! {user.email}</span>
+                {/* <img src={user.profileurl} alt="profileimage" /> */}
+              </>
             ) : (
               "Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi."
             )}

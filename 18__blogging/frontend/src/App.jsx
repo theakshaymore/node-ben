@@ -1,5 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
+import axios from "axios";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setLoading, setUser, clearUser } from "./store/authSlice";
+import { BACKEND_URL } from "./utils/config";
 
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
@@ -9,6 +13,27 @@ import Home from "./components/layout/Home";
 import Profile from "./components/user/Profile";
 
 function App() {
+  //
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      dispatch(setLoading(ture));
+      try {
+        const response = await axios.get(BACKEND_URL, {
+          withCredentials: true,
+        });
+        dispatch(setUser(response.data.user));
+      } catch (error) {
+        dispatch(setUser(null));
+      }
+
+      dispatch(setLoading(false));
+    };
+
+    fetchUser();
+  }, [dispatch]);
+
   return (
     <>
       {/* <h1>Ben Blogify</h1> */}

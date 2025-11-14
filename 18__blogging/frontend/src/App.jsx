@@ -44,15 +44,21 @@ function App() {
     <>
       {/* <h1>Ben Blogify</h1> */}
       <Router>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/profile" element={<Profile />} />
-        </Routes>
-        <Footer />
+        <div className="flex flex-col min-h-screen">
+          <Navbar />
+
+          <main className="grow">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/home" element={<Home />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/profile" element={<Profile />} />
+            </Routes>
+          </main>
+
+          <Footer />
+        </div>
       </Router>
     </>
   );

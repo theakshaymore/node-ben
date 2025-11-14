@@ -1,8 +1,11 @@
 import React from "react";
+import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { BACKEND_URL } from "../../utils/config";
 
 // redux imports
 import { useDispatch, useSelector } from "react-redux";
+import { clearUser } from "../../store/authSlice";
 
 function Navbar() {
   //
@@ -12,7 +15,20 @@ function Navbar() {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    //
+    try {
+      await axios.post(
+        `${BACKEND_URL}/user/logout`,
+        {},
+        {
+          withCredentials: true,
+        }
+      );
+
+      dispatch(clearUser());
+      navigate("/login");
+    } catch (error) {
+      console.log("Logout error:", error);
+    }
   };
 
   return (
@@ -59,7 +75,7 @@ function Navbar() {
 
             {user ? (
               <li>
-                <a>Logout</a>
+                <a onClick={handleLogout}>Logout</a>
               </li>
             ) : (
               <li>

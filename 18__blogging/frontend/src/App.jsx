@@ -13,6 +13,7 @@ import Signup from "./components/auth/Signup";
 import Login from "./components/auth/Login";
 import Home from "./components/layout/Home";
 import Profile from "./components/user/Profile";
+import AddBlog from "./components/user/AddBlog";
 
 function App() {
   //
@@ -54,6 +55,7 @@ function App() {
               <Route path="/signup" element={<Signup />} />
               <Route path="/login" element={<Login />} />
               <Route path="/profile" element={<Profile />} />
+              <Route path="/add" element={<AddBlog />} />
             </Routes>
           </main>
 

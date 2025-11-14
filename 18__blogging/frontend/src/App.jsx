@@ -1,9 +1,11 @@
 import React, { useEffect } from "react";
 import axios from "axios";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BACKEND_URL } from "./utils/config";
+
+// redux imports
 import { useDispatch } from "react-redux";
 import { setLoading, setUser, clearUser } from "./store/authSlice";
-import { BACKEND_URL } from "./utils/config";
 
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";

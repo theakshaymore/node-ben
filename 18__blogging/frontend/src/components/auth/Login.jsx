@@ -3,6 +3,10 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../../utils/config.js";
 
+// redux
+import { useDispatch } from "react-redux";
+import { setUser } from "../../store/authSlice.js";
+
 function Login() {
   //
   const [email, setEmail] = useState("akshay@gmail.com");
@@ -13,7 +17,9 @@ function Login() {
   const [toast, setToast] = useState("");
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
+  // toast msg
   useEffect(() => {
     if (toast) {
       const timer = setTimeout(() => {
@@ -40,6 +46,7 @@ function Login() {
 
       setLoading(false);
       if (response.data.success) {
+        dispatch(setUser(response.data.user));
         setToast(`${response.data.msg}. redirecting...`);
         setTimeout(() => {
           navigate("/", { replace: true });

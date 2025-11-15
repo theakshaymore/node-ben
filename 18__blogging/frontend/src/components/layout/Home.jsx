@@ -13,6 +13,7 @@ function Home() {
             backgroundImage:
               "url(https://images.pexels.com/photos/34095239/pexels-photo-34095239.jpeg)",
           }}
+          // "url(https://images.pexels.com/photos/34095239/pexels-photo-34095239.jpeg)",
         />
         <div className="absolute inset-0 bg-linear-to-b from-black/50 via-black/40 to-black/60" />
 

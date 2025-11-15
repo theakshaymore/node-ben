@@ -38,6 +38,7 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use("/uploads", express.static(path.resolve("./public/uploads")));
 
 // routes
 app.get("/api", isAuthenticated("token"), (req, res) => {

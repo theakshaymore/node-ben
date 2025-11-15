@@ -1,13 +1,24 @@
 import Blog from "../models/blog.model.js";
 
 async function handleAddBlog(req, res) {
-  const { title, body, imageURL } = req.body;
+  const { title, body } = req.body;
 
   try {
+    const coverImageURL = req.file
+      ? `/uploads/${req.user._id}/${req.file.filename}`
+      : null;
+
+    if (!coverImageURL) {
+      return res.status(400).json({
+        success: false,
+        msg: "Image is required",
+      });
+    }
+
     const response = await Blog.create({
       title,
       body,
-      coverImageURL: imageURL,
+      coverImageURL,
       createdBy: req.user._id,
     });
 

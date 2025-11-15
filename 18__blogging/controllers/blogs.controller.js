@@ -85,7 +85,10 @@ async function handleGetUserBlogs(req, res) {
 
 async function handleGetAllBlogs(req, res) {
   try {
-    const response = await Blog.find({});
+    const response = await Blog.find()
+      .populate("createdBy", "fullname email profileurl") // Get author info
+      .sort({ createdAt: -1 })
+      .limit(50); // Limit to 50 latest blogs
 
     if (!response) {
       return res.status(400).json({

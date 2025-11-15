@@ -4,30 +4,34 @@ import CardList from "../user/CardList.jsx";
 
 function Home() {
   return (
-    <div>
-      <div
-        className="hero min-h-screen"
-        style={{
-          backgroundImage:
-            "url(https://images.pexels.com/photos/34095239/pexels-photo-34095239.jpeg)",
-        }}
-      >
-        <div className="hero-overlay bg-opacity-60"></div>
-        <div className="hero-content text-neutral-content text-center">
-          <div className="max-w-md">
-            <h1 className="mb-5 text-5xl font-bold">Welcome to Everblog</h1>
-            <p className="mb-5">
-              Discover amazing stories, share your thoughts, and connect with
-              writers from around the world. Start your blogging journey today!
-            </p>
-            <Link to="/profile">
-              <button className="btn btn-primary">Get Started</button>
-            </Link>
-          </div>
+    <div className="bg-base-100">
+      {/* Hero Section - More focused, less cluttered */}
+      <div className="relative h-screen flex items-center justify-center overflow-hidden">
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage:
+              "url(https://images.pexels.com/photos/34095239/pexels-photo-34095239.jpeg)",
+          }}
+        />
+        <div className="absolute inset-0 bg-linear-to-b from-black/50 via-black/40 to-black/60" />
+
+        <div className="relative z-10 text-center px-4 max-w-3xl mx-auto">
+          <h1 className="text-6xl md:text-7xl font-bold text-white mb-8 tracking-tight">
+            Everblog
+          </h1>
+          <p className="text-xl md:text-2xl text-white/90 mb-12 font-light leading-relaxed">
+            Where stories come alive and ideas find their voice
+          </p>
+          <Link to="/profile">
+            <button className="btn btn-lg btn-primary rounded-full px-8 hover:scale-105 transition-transform">
+              Start Writing
+            </button>
+          </Link>
         </div>
       </div>
 
-      {/* Cardlist */}
+      {/* Content Section */}
       <CardList />
     </div>
   );

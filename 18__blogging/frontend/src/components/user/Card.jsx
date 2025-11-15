@@ -13,6 +13,7 @@ function Card({ blog }) {
       </figure>
       <div className="card-body">
         <h2 className="card-title line-clamp-2">{blog.title}</h2>
+        <h2 className="card-title line-clamp-2">{blog.createdBy.fullname}</h2>
         <p className="text-sm text-base-content/70 line-clamp-3">{blog.body}</p>
         <div className="card-actions justify-between items-center mt-4">
           <span className="text-xs text-base-content/60">

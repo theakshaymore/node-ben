@@ -6,6 +6,7 @@ import { connectToDB } from "./utils/db.js";
 
 // custom imports
 import userRoute from "./routes/user.route.js";
+import blogRoute from "./routes/blogs.routes.js";
 import { isAuthenticated } from "./middlewares/auth.middleware.js";
 
 const app = express();
@@ -34,19 +35,20 @@ app.use(
     credentials: true,
   })
 );
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // routes
-app.get("/api/", isAuthenticated("token"), (req, res) => {
+app.get("/api", isAuthenticated("token"), (req, res) => {
   res.json({
     user: req.user,
   });
 });
 
 app.use("/api/user", userRoute);
+
+app.use("/api/blog", isAuthenticated("token"), blogRoute);
 
 // running
 app.listen(PORT, () => {

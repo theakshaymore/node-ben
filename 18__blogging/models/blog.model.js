@@ -24,4 +24,4 @@ const blogSchema = new Schema(
 
 const Blog = model("blog", blogSchema);
 
-export default User;
+export default Blog;

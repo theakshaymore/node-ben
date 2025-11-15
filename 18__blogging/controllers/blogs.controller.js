@@ -49,7 +49,7 @@ async function handleAddBlog(req, res) {
     console.log("Error creating blog:", error);
     res.status(500).json({
       success: false,
-      msg: "Server error",
+      msg: "error in handleAddBlog()",
     });
   }
 }
@@ -78,9 +78,33 @@ async function handleGetUserBlogs(req, res) {
     console.log(error);
     return res.status(500).json({
       success: false,
-      msg: "server error",
+      msg: "serror in handleGetUserBlogs()",
     });
   }
 }
 
-export { handleAddBlog, handleGetUserBlogs };
+async function handleGetAllBlogs(req, res) {
+  try {
+    const response = await Blog.find({});
+
+    if (!response) {
+      return res.status(400).json({
+        success: false,
+        msg: "not able to get data from DB",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      blogs: response,
+    });
+  } catch (error) {
+    console.log("Server error");
+    return res.status(400).json({
+      success: false,
+      msg: "error in handleGetAllBlogs()",
+    });
+  }
+}
+
+export { handleAddBlog, handleGetUserBlogs, handleGetAllBlogs };

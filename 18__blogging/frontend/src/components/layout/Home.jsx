@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-// import CardList from "../user/CardList.jsx";
+import CardList from "../user/CardList.jsx";
 
 function Home() {
   return (
@@ -28,7 +28,7 @@ function Home() {
       </div>
 
       {/* Cardlist */}
-      {/* <CardList /> */}
+      <CardList />
     </div>
   );
 }

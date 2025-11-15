@@ -3,6 +3,7 @@ import { upload } from "../middlewares/upload.middleware.js";
 import {
   handleAddBlog,
   handleGetUserBlogs,
+  handleGetAllBlogs,
 } from "../controllers/blogs.controller.js";
 
 const router = Router();
@@ -10,5 +11,7 @@ const router = Router();
 router.post("/add", upload.single("image"), handleAddBlog);
 
 router.get("/getblogs", handleGetUserBlogs);
+
+router.get("/getallblogs", handleGetAllBlogs);
 
 export default router;

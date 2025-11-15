@@ -1,22 +1,26 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-function Card() {
+function Card({ blog }) {
   return (
-    <div className="card bg-base-100 w-96 shadow-sm">
-      <figure>
+    <div className="card bg-base-100 shadow-lg hover:shadow-xl transition-shadow">
+      <figure className="h-48">
         <img
-          src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-          alt="Shoes"
+          src={blog.coverImageURL}
+          alt="cover-image"
+          className="w-full h-full object-cover"
         />
       </figure>
       <div className="card-body">
-        <h2 className="card-title">Card Title</h2>
-        <p>
-          A card component has a figure, a body part, and inside body there are
-          title and actions parts
-        </p>
-        <div className="card-actions justify-end">
-          <button className="btn btn-primary">Buy Now</button>
+        <h2 className="card-title line-clamp-2">{blog.title}</h2>
+        <p className="text-sm text-base-content/70 line-clamp-3">{blog.body}</p>
+        <div className="card-actions justify-between items-center mt-4">
+          <span className="text-xs text-base-content/60">
+            {new Date(blog.createdAt).toLocaleDateString()}
+          </span>
+          <Link to={`/blog/${blog._id}`}>
+            <button className="btn btn-primary btn-sm">Read More</button>
+          </Link>
         </div>
       </div>
     </div>

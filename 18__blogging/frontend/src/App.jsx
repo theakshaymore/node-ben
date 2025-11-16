@@ -14,6 +14,7 @@ import Login from "./components/auth/Login";
 import Home from "./components/layout/Home";
 import Profile from "./components/user/Profile";
 import AddBlog from "./components/user/AddBlog";
+import NotFound from "./components/layout/NotFound";
 
 function App() {
   //
@@ -56,6 +57,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/add" element={<AddBlog />} />
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
 

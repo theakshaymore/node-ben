@@ -110,4 +110,35 @@ async function handleGetAllBlogs(req, res) {
   }
 }
 
-export { handleAddBlog, handleGetUserBlogs, handleGetAllBlogs };
+async function handleGetBlogByID(req, res) {
+  const blogId = req.params.id;
+  try {
+    const response = await Blog.findById(blogId);
+
+    if (!response) {
+      return res.status(404).json({
+        success: false,
+        msg: "not able to get blog details from DB",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      msg: "blog details fetched aptly",
+      blogDetails: response,
+    });
+  } catch (error) {
+    console.log("error in handleGetBlogByID()");
+    return res.status(400).json({
+      success: false,
+      msg: "error in handleGetBlogByID()",
+    });
+  }
+}
+
+export {
+  handleAddBlog,
+  handleGetUserBlogs,
+  handleGetAllBlogs,
+  handleGetBlogByID,
+};

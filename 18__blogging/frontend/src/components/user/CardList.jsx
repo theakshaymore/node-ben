@@ -14,7 +14,7 @@ function CardList() {
     async function getAllBlogs() {
       try {
         setLoading(true);
-        const response = await axios.get(`${BACKEND_URL}/blog/getallblogs`, {
+        const response = await axios.get(`${BACKEND_URL}/getallblogs`, {
           withCredentials: true,
         });
 

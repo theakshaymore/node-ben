@@ -10,6 +10,7 @@ import { connectToDB } from "./utils/db.js";
 import userRoute from "./routes/user.route.js";
 import blogRoute from "./routes/blogs.routes.js";
 import { isAuthenticated } from "./middlewares/auth.middleware.js";
+import { handleGetAllBlogs } from "./controllers/blogs.controller.js";
 
 const app = express();
 
@@ -49,6 +50,8 @@ app.get("/api", isAuthenticated("token"), (req, res) => {
     user: req.user,
   });
 });
+
+app.get("/api/getallblogs", handleGetAllBlogs);
 
 app.use("/api/user", userRoute);
 

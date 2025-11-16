@@ -12,6 +12,4 @@ router.post("/add", upload.single("image"), handleAddBlog);
 
 router.get("/getblogs", handleGetUserBlogs);
 
-router.get("/getallblogs", handleGetAllBlogs);
-
 export default router;

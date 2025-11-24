@@ -121,9 +121,9 @@ function CardDetails() {
 
       {/* Body */}
       <div className="prose prose-lg max-w-none">
-        <p className="text-xl leading-relaxed text-base-content/80 whitespace-pre-wrap">
+        <pre className="text-xl leading-relaxed text-base-content/80 whitespace-pre-wrap">
           {blog.body}
-        </p>
+        </pre>
       </div>
 
       {/* Divider */}

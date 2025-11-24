@@ -12,6 +12,6 @@ router.post("/add", upload.single("image"), handleAddBlog);
 
 router.get("/getblogs", handleGetUserBlogs);
 
-router.get("/:id", handleGetBlogByID);
+// router.get("/:id", handleGetBlogByID);
 
 export default router;

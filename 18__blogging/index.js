@@ -10,7 +10,10 @@ import { connectToDB } from "./utils/db.js";
 import userRoute from "./routes/user.route.js";
 import blogRoute from "./routes/blogs.routes.js";
 import { isAuthenticated } from "./middlewares/auth.middleware.js";
-import { handleGetAllBlogs } from "./controllers/blogs.controller.js";
+import {
+  handleGetAllBlogs,
+  handleGetBlogByID,
+} from "./controllers/blogs.controller.js";
 
 const app = express();
 
@@ -54,6 +57,8 @@ app.get("/api", isAuthenticated("token"), (req, res) => {
 app.get("/api/getallblogs", handleGetAllBlogs);
 
 app.use("/api/user", userRoute);
+
+app.use("/api/blog/:id", handleGetBlogByID);
 
 app.use("/api/blog", isAuthenticated("token"), blogRoute);
 

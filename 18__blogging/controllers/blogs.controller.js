@@ -112,8 +112,12 @@ async function handleGetAllBlogs(req, res) {
 
 async function handleGetBlogByID(req, res) {
   const blogId = req.params.id;
+
   try {
-    const response = await Blog.findById(blogId);
+    const response = await Blog.findById(blogId).populate(
+      "createdBy",
+      "fullname email profileurl"
+    );
 
     if (!response) {
       return res.status(404).json({

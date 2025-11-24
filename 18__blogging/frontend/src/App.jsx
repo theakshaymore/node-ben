@@ -15,6 +15,7 @@ import Home from "./components/layout/Home";
 import Profile from "./components/user/Profile";
 import AddBlog from "./components/user/AddBlog";
 import NotFound from "./components/layout/NotFound";
+import CardDetails from "./components/user/CardDetails";
 
 function App() {
   //
@@ -57,6 +58,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/add" element={<AddBlog />} />
+              <Route path="/blog/:id" element={<CardDetails />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>

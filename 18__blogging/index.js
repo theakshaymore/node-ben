@@ -34,7 +34,7 @@ app.set("views", path.resolve("./views"));
 // middlewares
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "http://localhost:5177",
     credentials: true,
   })
 );

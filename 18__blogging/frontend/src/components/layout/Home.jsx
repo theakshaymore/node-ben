@@ -1,6 +1,7 @@
-import React from "react";
+import React, { Suspense, lazy } from "react";
 import { Link } from "react-router-dom";
-import CardList from "../user/CardList.jsx";
+
+const CardList = lazy(() => import("../user/CardList.jsx"));
 
 function Home() {
   return (
@@ -33,7 +34,9 @@ function Home() {
       </div>
 
       {/* Content Section */}
-      <CardList />
+      <Suspense fallback={<p>Loading....</p>}>
+        <CardList />
+      </Suspense>
     </div>
   );
 }

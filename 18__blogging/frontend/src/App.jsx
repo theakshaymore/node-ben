@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, Suspense, lazy } from "react";
 import axios from "axios";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { BACKEND_URL } from "./utils/config";
@@ -7,15 +7,16 @@ import { BACKEND_URL } from "./utils/config";
 import { useDispatch } from "react-redux";
 import { setLoading, setUser, clearUser } from "./store/authSlice";
 
-import Navbar from "./components/layout/Navbar";
-import Footer from "./components/layout/Footer";
-import Signup from "./components/auth/Signup";
-import Login from "./components/auth/Login";
-import Home from "./components/layout/Home";
-import Profile from "./components/user/Profile";
-import AddBlog from "./components/user/AddBlog";
-import NotFound from "./components/layout/NotFound";
-import CardDetails from "./components/user/CardDetails";
+const Navbar = lazy(() => import("./components/layout/Navbar"));
+const Footer = lazy(() => import("./components/layout/Footer"));
+const Signup = lazy(() => import("./components/auth/Signup"));
+const Login = lazy(() => import("./components/auth/Login"));
+const Home = lazy(() => import("./components/layout/Home"));
+const Profile = lazy(() => import("./components/user/Profile"));
+const AddBlog = lazy(() => import("./components/user/AddBlog"));
+const NotFound = lazy(() => import("./components/layout/NotFound"));
+const CardDetails = lazy(() => import("./components/user/CardDetails"));
+const Loading = lazy(() => import("./components/layout/Loading"));
 
 function App() {
   //
@@ -51,16 +52,18 @@ function App() {
           <Navbar />
 
           <main className="grow">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/home" element={<Home />} />
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/add" element={<AddBlog />} />
-              <Route path="/blog/:id" element={<CardDetails />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+            <Suspense fallback={<Loading />}>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/home" element={<Home />} />
+                <Route path="/signup" element={<Signup />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/add" element={<AddBlog />} />
+                <Route path="/blog/:id" element={<CardDetails />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Suspense>
           </main>
 
           <Footer />

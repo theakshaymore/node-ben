@@ -37,7 +37,7 @@ app.set("views", path.resolve("./views"));
 // middlewares
 app.use(
   cors({
-    origin: "http://localhost:5177",
+    origin: "http://localhost:5173",
     credentials: true,
   })
 );
@@ -54,11 +54,13 @@ app.get("/api", isAuthenticated("token"), (req, res) => {
   });
 });
 
-app.get("/api/getallblogs", handleGetAllBlogs);
+// PUBLIC ROUTES
+app.get("/api/blog/getallblogs", handleGetAllBlogs);
+// app.get("/api/blog/:id", handleGetBlogByID);
 
 app.use("/api/user", userRoute);
 
-app.use("/api/blog/:id", handleGetBlogByID);
+// app.use("/api/blog/:id", handleGetBlogByID);
 
 app.use("/api/blog", isAuthenticated("token"), blogRoute);
 

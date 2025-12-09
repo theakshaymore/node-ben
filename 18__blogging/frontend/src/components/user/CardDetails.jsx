@@ -7,9 +7,9 @@ function CardDetails() {
   const [blog, setBlog] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [comment, setComment] = useState("");
 
   const navigate = useNavigate();
-
   const { id } = useParams();
 
   useEffect(() => {
@@ -31,6 +31,32 @@ function CardDetails() {
 
     fetchBlog();
   }, [id]);
+
+  async function handleCommentSubmit() {
+    if (!comment.trim()) {
+      alert("Please enter a comment");
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        `${BACKEND_URL}/blog/addcomment`,
+        {
+          content: comment,
+          blogId: id,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      if (response.data.success) {
+        console.log("comment added");
+        setComment("");
+      }
+    } catch (error) {
+      console.log("error adding comment:", error);
+    }
+  }
 
   if (loading) {
     return (
@@ -136,6 +162,28 @@ function CardDetails() {
             Read More Stories
           </button>
         </Link>
+      </div>
+
+      {/* Divider */}
+      <div className="divider my-12"></div>
+
+      {/* Comment */}
+      <div className="flex gap-4">
+        <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
+          <legend className="fieldset-legend">Comment</legend>
+          <div className="join">
+            <input
+              type="text"
+              className="input join-item"
+              placeholder="comment something"
+              value={comment}
+              onChange={(event) => setComment(event.target.value)}
+            />
+            <button className="btn join-item" onClick={handleCommentSubmit}>
+              Comment
+            </button>
+          </div>
+        </fieldset>
       </div>
     </article>
   );

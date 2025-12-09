@@ -1,4 +1,5 @@
 import Blog from "../models/blog.model.js";
+import Comment from "../models/comment.model.js";
 import imageKit from "../utils/imagekit.js";
 
 async function handleAddBlog(req, res) {
@@ -140,9 +141,73 @@ async function handleGetBlogByID(req, res) {
   }
 }
 
+async function handleAddComment(req, res) {
+  const { content, blogId } = req.body;
+
+  try {
+    if (!content || !blogId) {
+      return res.status(400).json({
+        success: false,
+        msg: "Content and blogId are required",
+      });
+    }
+
+    // Create comment
+    const response = await Comment.create({
+      content,
+      createdBy: req.user._id,
+      blogId,
+    });
+
+    res.status(201).json({
+      success: true,
+      msg: "Comment added aptly",
+      comment: response,
+    });
+  } catch (error) {
+    console.log("Error adding comment:", error);
+    res.status(500).json({
+      success: false,
+      msg: "error in handleAddComment()",
+    });
+  }
+}
+
+async function handleGetCommentsByBlogId(req, res) {
+  const blogId = req.params.blogId;
+
+  try {
+    const response = await Comment.find({ blogId }).populate(
+      "createdBy",
+      "fullname profileurl"
+    );
+
+    if (!response) {
+      return res.status(400).json({
+        success: false,
+        msg: "no comments yet",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      msg: "comment fetched aptly",
+      comments: response,
+    });
+  } catch (error) {
+    console.log("error fetching comments", error);
+    return res.status(400).json({
+      success: false,
+      msg: "error in handleGetCommentsByBlogId()",
+    });
+  }
+}
+
 export {
   handleAddBlog,
   handleGetUserBlogs,
   handleGetAllBlogs,
   handleGetBlogByID,
+  handleAddComment,
+  handleGetCommentsByBlogId,
 };

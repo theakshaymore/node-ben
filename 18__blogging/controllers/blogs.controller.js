@@ -174,7 +174,7 @@ async function handleAddComment(req, res) {
 }
 
 async function handleGetCommentsByBlogId(req, res) {
-  const blogId = req.params.blogId;
+  const blogId = req.params.blogid;
 
   try {
     const response = await Comment.find({ blogId }).populate(

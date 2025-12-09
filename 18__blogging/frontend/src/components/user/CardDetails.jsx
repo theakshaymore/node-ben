@@ -8,6 +8,7 @@ function CardDetails() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [comment, setComment] = useState("");
+  const [comments, setComments] = useState([]);
 
   const navigate = useNavigate();
   const { id } = useParams();
@@ -31,6 +32,29 @@ function CardDetails() {
 
     fetchBlog();
   }, [id]);
+
+  useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        const response = await axios.get(
+          `${BACKEND_URL}/blog/getcomments/${id}`,
+          {
+            withCredentials: true,
+          }
+        );
+
+        if (response.data.success) {
+          setComments(comments, ...response.data.comments);
+        }
+
+        console.log(comments);
+      } catch (error) {
+        console.log("error in com");
+      }
+    };
+
+    fetchComments();
+  }, [comments]);
 
   async function handleCommentSubmit() {
     if (!comment.trim()) {

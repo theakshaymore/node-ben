@@ -25,12 +25,12 @@ const MONGO_URL = "mongodb://172.21.128.1:27017/everblog";
 
 // mongodb://localhost:27017/
 // DB connect
-await connectToDB(MONGO_URL)
+connectToDB(MONGO_URL)
   .then(() => {
     console.log(`DB CONNECTED SUCCESSFULLY...!`);
   })
   .catch((err) => {
-    console.log(`ERROR CONNECTING DB...!`, err);
+    console.log(`ERROR CONNECTING DB...!`, err.message);
   });
 
 // server-side rendering

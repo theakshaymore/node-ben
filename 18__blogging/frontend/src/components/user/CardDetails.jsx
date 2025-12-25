@@ -220,9 +220,11 @@ function CardDetails() {
                 <div className="flex items-start gap-3">
                   <div className="avatar placeholder">
                     <div className="bg-neutral text-neutral-content w-10 h-10 rounded-full">
-                      <span className="text-sm">
-                        {c.createdBy.fullname.charAt(0)}
-                      </span>
+                      <img
+                        src={c.createdBy.profileurl}
+                        alt={c.createdBy.fullname}
+                        className="w-10 h-10 rounded-full object-cover"
+                      />
                     </div>
                   </div>
                   <div className="flex-1">

@@ -9,6 +9,7 @@ function CardDetails() {
   const [error, setError] = useState("");
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
+  const [toast, setToast] = useState("");
 
   const navigate = useNavigate();
   const { id } = useParams();
@@ -46,17 +47,15 @@ function CardDetails() {
         );
 
         if (response.data.success) {
-          setComments(comments, ...response.data.comments);
+          setComments([...comments, ...response.data.comments]);
         }
-
-        console.log(comments);
       } catch (error) {
         console.log("error in com");
       }
     };
 
     fetchComments();
-  }, [comments]);
+  }, [id]);
 
   // add comment
   async function handleCommentSubmit() {
@@ -77,14 +76,27 @@ function CardDetails() {
         }
       );
       if (response.data.success) {
+        setComments([...comments, response.data.comment]);
         console.log("comment added");
         setComment("");
+        // add toast msg of "comment added successfully"
+        setToast("comment added successfully");
       }
     } catch (error) {
       console.log("error adding comment:", error);
     }
   }
 
+  // toast msg
+  useEffect(() => {
+    if (toast) {
+      const timer = setTimeout(() => {
+        setToast("");
+      }, 3000);
+
+      return () => clearTimeout(timer); // Cleanup timer
+    }
+  }, [toast]);
   if (loading) {
     return (
       <div className="max-w-4xl mx-auto px-6 py-20">
@@ -194,7 +206,43 @@ function CardDetails() {
       {/* Divider */}
       <div className="divider my-12"></div>
 
-      {/* Comment */}
+      {/* style it using daisyui list group */}
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold mb-4">
+          Comments ({comments.length})
+        </h2>
+        {comments.length === 0 ? (
+          <p className="text-base-content/60">No comments yet. Be the first!</p>
+        ) : (
+          <div className="space-y-4">
+            {comments.map((c) => (
+              <div key={c._id} className="card bg-base-200 p-4">
+                <div className="flex items-start gap-3">
+                  <div className="avatar placeholder">
+                    <div className="bg-neutral text-neutral-content w-10 h-10 rounded-full">
+                      <span className="text-sm">
+                        {c.createdBy.fullname.charAt(0)}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <p className="font-semibold">{c.createdBy.fullname}</p>
+                      <span className="text-xs text-base-content/60">
+                        {new Date(c.createdAt).toLocaleDateString()}
+                      </span>
+                    </div>
+                    <p className="text-base-content/80">{c.content}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* add comment section */}
+
       <div className="flex gap-4">
         <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
           <legend className="fieldset-legend">Comment</legend>
@@ -212,6 +260,13 @@ function CardDetails() {
           </div>
         </fieldset>
       </div>
+
+      {/* Toast notification - shown when toast has value */}
+      {toast && (
+        <div className="toast toast-top toast-center">
+          <div className="alert alert-success">{toast}</div>
+        </div>
+      )}
     </article>
   );
 }

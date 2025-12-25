@@ -34,6 +34,7 @@ function CardDetails() {
     fetchBlog();
   }, [id]);
 
+  // get comments
   useEffect(() => {
     const fetchComments = async () => {
       try {
@@ -57,6 +58,7 @@ function CardDetails() {
     fetchComments();
   }, [comments]);
 
+  // add comment
   async function handleCommentSubmit() {
     if (!comment.trim()) {
       alert("Please enter a comment");

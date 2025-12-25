@@ -13,6 +13,7 @@ function CardDetails() {
   const navigate = useNavigate();
   const { id } = useParams();
 
+  // get blog details
   useEffect(() => {
     async function fetchBlog() {
       try {

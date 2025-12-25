@@ -47,10 +47,10 @@ function CardDetails() {
         );
 
         if (response.data.success) {
-          setComments([...comments, ...response.data.comments]);
+          setComments(response.data.comments);
         }
       } catch (error) {
-        console.log("error in com");
+        console.log("error fetching comments:", error);
       }
     };
 
@@ -60,7 +60,7 @@ function CardDetails() {
   // add comment
   async function handleCommentSubmit() {
     if (!comment.trim()) {
-      alert("Please enter a comment");
+      setToast("Please enter a comment");
       return;
     }
 
@@ -76,14 +76,13 @@ function CardDetails() {
         }
       );
       if (response.data.success) {
-        setComments([...comments, response.data.comment]);
-        console.log("comment added");
+        setComments([response.data.comment, ...comments]);
         setComment("");
-        // add toast msg of "comment added successfully"
-        setToast("comment added successfully");
+        setToast("Comment added successfully!");
       }
     } catch (error) {
       console.log("error adding comment:", error);
+      setToast("Failed to add comment");
     }
   }
 
@@ -94,9 +93,10 @@ function CardDetails() {
         setToast("");
       }, 3000);
 
-      return () => clearTimeout(timer); // Cleanup timer
+      return () => clearTimeout(timer);
     }
   }, [toast]);
+
   if (loading) {
     return (
       <div className="max-w-4xl mx-auto px-6 py-20">
@@ -206,9 +206,9 @@ function CardDetails() {
       {/* Divider */}
       <div className="divider my-12"></div>
 
-      {/* style it using daisyui list group */}
+      {/* Comments Section */}
       <div className="mb-8">
-        <h2 className="text-2xl font-bold mb-4">
+        <h2 className="text-2xl font-bold mb-6">
           Comments ({comments.length})
         </h2>
         {comments.length === 0 ? (
@@ -218,20 +218,32 @@ function CardDetails() {
             {comments.map((c) => (
               <div key={c._id} className="card bg-base-200 p-4">
                 <div className="flex items-start gap-3">
-                  <div className="avatar placeholder">
-                    <div className="bg-neutral text-neutral-content w-10 h-10 rounded-full">
-                      <img
-                        src={c.createdBy.profileurl}
-                        alt={c.createdBy.fullname}
-                        className="w-10 h-10 rounded-full object-cover"
-                      />
+                  <div className="avatar">
+                    <div className="w-10 h-10 rounded-full">
+                      {c.createdBy.profileurl ? (
+                        <img
+                          src={c.createdBy.profileurl}
+                          alt={c.createdBy.fullname}
+                          className="w-10 h-10 rounded-full object-cover"
+                        />
+                      ) : (
+                        <div className="bg-neutral text-neutral-content w-10 h-10 rounded-full flex items-center justify-center">
+                          <span className="text-sm">
+                            {c.createdBy.fullname.charAt(0)}
+                          </span>
+                        </div>
+                      )}
                     </div>
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
                       <p className="font-semibold">{c.createdBy.fullname}</p>
                       <span className="text-xs text-base-content/60">
-                        {new Date(c.createdAt).toLocaleDateString()}
+                        {new Date(c.createdAt).toLocaleDateString("en-US", {
+                          month: "short",
+                          day: "numeric",
+                          year: "numeric",
+                        })}
                       </span>
                     </div>
                     <p className="text-base-content/80">{c.content}</p>
@@ -243,30 +255,37 @@ function CardDetails() {
         )}
       </div>
 
-      {/* add comment section */}
-
-      <div className="flex gap-4">
-        <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
-          <legend className="fieldset-legend">Comment</legend>
-          <div className="join">
-            <input
-              type="text"
-              className="input join-item"
-              placeholder="comment something"
-              value={comment}
-              onChange={(event) => setComment(event.target.value)}
-            />
-            <button className="btn join-item" onClick={handleCommentSubmit}>
-              Comment
-            </button>
-          </div>
-        </fieldset>
+      {/* Add comment section */}
+      <div className="w-full">
+        <h3 className="text-xl font-semibold mb-4">Add a Comment</h3>
+        <div className="flex gap-3 items-start">
+          <input
+            type="text"
+            className="input input-bordered flex-1"
+            placeholder="Write your comment..."
+            value={comment}
+            onChange={(event) => setComment(event.target.value)}
+            onKeyPress={(e) => {
+              if (e.key === "Enter") {
+                handleCommentSubmit();
+              }
+            }}
+          />
+          <button
+            className="btn btn-primary rounded-full px-6"
+            onClick={handleCommentSubmit}
+          >
+            Comment
+          </button>
+        </div>
       </div>
 
-      {/* Toast notification - shown when toast has value */}
+      {/* Toast notification */}
       {toast && (
         <div className="toast toast-top toast-center">
-          <div className="alert alert-success">{toast}</div>
+          <div className="alert alert-success">
+            <span>{toast}</span>
+          </div>
         </div>
       )}
     </article>

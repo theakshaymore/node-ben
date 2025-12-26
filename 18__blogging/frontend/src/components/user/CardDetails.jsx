@@ -231,19 +231,11 @@ function CardDetails() {
                 <div className="flex items-start gap-3">
                   <div className="avatar">
                     <div className="w-10 h-10 rounded-full">
-                      {c.createdBy.profileurl ? (
-                        <img
-                          src={c.createdBy.profileurl}
-                          alt={c.createdBy.fullname}
-                          className="w-10 h-10 rounded-full object-cover"
-                        />
-                      ) : (
-                        <div className="bg-neutral text-neutral-content w-10 h-10 rounded-full flex items-center justify-center">
-                          <span className="text-sm">
-                            {c.createdBy.fullname.charAt(0)}
-                          </span>
-                        </div>
-                      )}
+                      <img
+                        src={c.createdBy.profileurl}
+                        alt={c.createdBy.fullname}
+                        className="w-10 h-10 rounded-full object-cover"
+                      />
                     </div>
                   </div>
                   <div className="flex-1">

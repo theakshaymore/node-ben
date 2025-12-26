@@ -20,9 +20,12 @@ function Card({ blog }) {
           <div className="flex items-center gap-3 text-sm">
             <div className="avatar placeholder">
               <div className="bg-neutral text-neutral-content w-8 h-8 rounded-full">
-                <span className="text-xs">
-                  {blog.createdBy.fullname.charAt(0)}
-                </span>
+                {/* instead of span add img with profileurl and instead of text-xs add text-sm */}
+                <img
+                  src={blog.createdBy.profileurl}
+                  alt={blog.createdBy.fullname}
+                  className="w-8 h-8 rounded-full object-cover"
+                />
               </div>
             </div>
             <div className="flex-1">

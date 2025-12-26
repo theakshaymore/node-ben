@@ -152,12 +152,11 @@ function CardDetails() {
       </button>
 
       {/* Hero Image */}
-      {/* make the image smaller in height and keep the width as it is */}
-      <div className="relative h-60 w-full md:h-128 md:w-lg overflow-hidden rounded-3xl mb-12">
+      <div className="relative h-80 w-full overflow-hidden rounded-3xl mb-12 bg-base-300">
         <img
           src={blog.coverImageURL}
           alt={blog.title}
-          className="object-cover"
+          className="w-full h-full object-cover"
         />
       </div>
 
@@ -165,14 +164,19 @@ function CardDetails() {
       <div className="flex items-center gap-4 mb-8">
         <div className="avatar placeholder">
           <div className="bg-neutral text-neutral-content w-12 h-12 rounded-full">
-            <span className="text-lg">{blog.createdBy.fullname.charAt(0)}</span>
+            {/* instead of span add image from createdby,profileurl */}
+            <img
+              src={blog.createdBy.profileurl}
+              alt={blog.createdBy.fullname}
+              className="w-12 h-12 rounded-full object-cover"
+            />
           </div>
         </div>
         <div>
           <p className="font-semibold text-lg">{blog.createdBy.fullname}</p>
           <p className="text-sm text-base-content/60">
             {new Date(blog.createdAt).toLocaleDateString("en-US", {
-              month: "long",
+              month: "short",
               day: "numeric",
               year: "numeric",
             })}
@@ -186,9 +190,11 @@ function CardDetails() {
       </h1>
 
       {/* Body */}
-      <div className="prose prose-lg max-w-none">
-        <pre className="text-xl leading-relaxed text-base-content/80 whitespace-pre-wrap">
-          {blog.body}
+      <div className="prose prose-lg max-w-none mb-12">
+        <pre className="text-lg leading-relaxed text-base-content/80 whitespace-pre-wrap font-sans">
+          <p className="text-lg leading-relaxed text-base-content/80 whitespace-pre-wrap font-sans">
+            {blog.body}
+          </p>
         </pre>
       </div>
 
@@ -196,24 +202,28 @@ function CardDetails() {
       <div className="divider my-12"></div>
 
       {/* Actions */}
-      <div className="flex gap-4">
+      {/* <div className="flex gap-4 mb-12">
         <Link to="/">
-          <button className="btn btn-outline rounded-full">
+          <button className="btn btn-outline rounded-full px-8">
             Read More Stories
           </button>
         </Link>
-      </div>
+      </div> */}
 
       {/* Divider */}
-      <div className="divider my-12"></div>
+      {/* <div className="divider my-12"></div> */}
 
       {/* Comments Section */}
-      <div className="mb-8">
+      <div className="mb-12">
         <h2 className="text-2xl font-bold mb-6">
           Comments ({comments.length})
         </h2>
         {comments.length === 0 ? (
-          <p className="text-base-content/60">No comments yet. Be the first!</p>
+          <div className="text-center py-8">
+            <p className="text-base-content/60">
+              No comments yet. Be the first to share your thoughts!
+            </p>
+          </div>
         ) : (
           <div className="space-y-4">
             {comments.map((c) => (
@@ -238,7 +248,9 @@ function CardDetails() {
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
-                      <p className="font-semibold">{c.createdBy.fullname}</p>
+                      <p className="font-semibold text-sm">
+                        {c.createdBy.fullname}
+                      </p>
                       <span className="text-xs text-base-content/60">
                         {new Date(c.createdAt).toLocaleDateString("en-US", {
                           month: "short",
@@ -247,7 +259,9 @@ function CardDetails() {
                         })}
                       </span>
                     </div>
-                    <p className="text-base-content/80">{c.content}</p>
+                    <p className="text-base-content/80 text-sm leading-relaxed">
+                      {c.content}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -257,9 +271,9 @@ function CardDetails() {
       </div>
 
       {/* Add comment section */}
-      <div className="w-full">
-        <h3 className="text-xl font-semibold mb-4">Add a Comment</h3>
-        <div className="flex gap-3 items-start">
+      <div className="w-full bg-base-200 rounded-3xl p-6">
+        <h3 className="text-lg font-semibold mb-4">Add a Comment</h3>
+        <div className="flex gap-3 items-center">
           <input
             type="text"
             className="input input-bordered flex-1"
@@ -276,7 +290,7 @@ function CardDetails() {
             className="btn btn-primary rounded-full px-6"
             onClick={handleCommentSubmit}
           >
-            Comment
+            Post
           </button>
         </div>
       </div>
@@ -284,7 +298,20 @@ function CardDetails() {
       {/* Toast notification */}
       {toast && (
         <div className="toast toast-top toast-center">
-          <div className="alert alert-success">
+          <div className="alert alert-success shadow-lg">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="stroke-current shrink-0 h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
             <span>{toast}</span>
           </div>
         </div>

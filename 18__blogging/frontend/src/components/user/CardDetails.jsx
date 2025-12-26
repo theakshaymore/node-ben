@@ -280,7 +280,7 @@ function CardDetails() {
             placeholder="Write your comment..."
             value={comment}
             onChange={(event) => setComment(event.target.value)}
-            onKeyPress={(e) => {
+            onKeyDown={(e) => {
               if (e.key === "Enter") {
                 handleCommentSubmit();
               }

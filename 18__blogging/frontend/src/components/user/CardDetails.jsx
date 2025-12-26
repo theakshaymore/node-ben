@@ -152,11 +152,12 @@ function CardDetails() {
       </button>
 
       {/* Hero Image */}
-      <div className="relative h-96 md:h-128 overflow-hidden rounded-3xl mb-12 bg-base-300">
+      {/* make the image smaller in height and keep the width as it is */}
+      <div className="relative h-60 w-full md:h-128 md:w-lg overflow-hidden rounded-3xl mb-12">
         <img
           src={blog.coverImageURL}
           alt={blog.title}
-          className="w-full h-full object-cover"
+          className="object-cover"
         />
       </div>
 

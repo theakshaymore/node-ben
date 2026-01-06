@@ -213,7 +213,7 @@ async function handleDeleteBlog(req, res) {
         msg: "not able to delete blog",
       });
     }
-
+    //
     return res.status(200).json({
       success: true,
       msg: "blog deleted aptly",
@@ -227,6 +227,30 @@ async function handleDeleteBlog(req, res) {
   }
 }
 
+async function handleEditBlog(req, res) {
+  try {
+    const response = await Blog.findById(req.params.id);
+
+    if (!response) {
+      return res.status(400).json({
+        success: false,
+        msg: "not able to edit blog",
+      });
+    }
+    //
+    return res.status(200).json({
+      success: true,
+      msg: "blog edited aptly",
+    });
+  } catch (error) {
+    console.log("error editing blog", error);
+    return res.status(400).json({
+      success: false,
+      msg: "error in handleEditBlog()",
+    });
+  }
+}
+
 export {
   handleAddBlog,
   handleGetUserBlogs,
@@ -235,4 +259,5 @@ export {
   handleAddComment,
   handleGetCommentsByBlogId,
   handleDeleteBlog,
+  handleEditBlog,
 };

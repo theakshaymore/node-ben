@@ -36,6 +36,23 @@ function UserBlogList({ user }) {
     }
   }
 
+  async function handleEdit(id) {
+    try {
+      const response = await axios.get(`${BACKEND_URL}/blog/editblog/${id}`, {
+        withCredentials: true,
+      });
+
+      if (response.data.success) {
+        setBlogs(blogs.filter((blog) => blog._id !== id));
+        setToast("Blog deleted successfully");
+      }
+    } catch (error) {
+      console.log("Error deleting blog:", error);
+      console.log("Error response:", error.response?.data);
+      setToast(error.response?.data?.msg || "Failed to delete blog");
+    }
+  }
+
   useEffect(() => {
     async function getAllBlogs() {
       try {
@@ -90,7 +107,10 @@ function UserBlogList({ user }) {
                 {new Date(blog.createdAt).toLocaleDateString()}
               </div>
             </div>
-            <button className="btn btn-square btn-ghost">
+            <button
+              className="btn btn-square btn-ghost"
+              onClick={() => handleEdit(blog._id)}
+            >
               <svg
                 className="size-[1.2em]"
                 xmlns="http://www.w3.org/2000/svg"

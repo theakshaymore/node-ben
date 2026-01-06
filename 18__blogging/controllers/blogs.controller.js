@@ -241,6 +241,7 @@ async function handleEditBlog(req, res) {
     return res.status(200).json({
       success: true,
       msg: "blog edited aptly",
+      blog: response,
     });
   } catch (error) {
     console.log("error editing blog", error);

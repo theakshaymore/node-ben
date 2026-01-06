@@ -6,11 +6,33 @@ import { Link } from "react-router-dom";
 function UserBlogList({ user }) {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [toast, setToast] = useState("");
 
-  function handleDelete(id) {
+  // toast auto-dismiss
+  useEffect(() => {
+    if (toast) {
+      const timer = setTimeout(() => {
+        setToast("");
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [toast]);
+
+  async function handleDelete(id) {
     try {
+      const response = await axios.delete(`${BACKEND_URL}/blog/${id}`, {
+        withCredentials: true,
+      });
+
+      if (response.data.success) {
+        setBlogs(blogs.filter((blog) => blog._id !== id));
+        setToast("Blog deleted successfully");
+      }
     } catch (error) {
       console.log("Error deleting blog:", error);
+      console.log("Error response:", error.response?.data);
+      setToast(error.response?.data?.msg || "Failed to delete blog");
     }
   }
 
@@ -86,7 +108,10 @@ function UserBlogList({ user }) {
                 </g>
               </svg>
             </button>
-            <button className="btn btn-square btn-ghost text-error">
+            <button
+              onClick={() => handleDelete(blog._id)}
+              className="btn btn-square btn-ghost text-error"
+            >
               <svg
                 className="size-[1.2em]"
                 xmlns="http://www.w3.org/2000/svg"
@@ -104,7 +129,6 @@ function UserBlogList({ user }) {
                   <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
                 </g>
               </svg>
-              onClick={() => handleDelete(blog._id)}
             </button>
           </li>
         ))}
@@ -118,6 +142,28 @@ function UserBlogList({ user }) {
           <Link to="/add">
             <button className="btn btn-primary">Create Your First Blog</button>
           </Link>
+        </div>
+      )}
+
+      {/* Toast notification */}
+      {toast && (
+        <div className="toast toast-top toast-center">
+          <div className="alert alert-success shadow-lg">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="stroke-current shrink-0 h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            <span>{toast}</span>
+          </div>
         </div>
       )}
     </div>

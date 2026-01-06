@@ -203,6 +203,30 @@ async function handleGetCommentsByBlogId(req, res) {
   }
 }
 
+async function handleDeleteBlog(req, res) {
+  try {
+    const response = await Blog.findByIdAndDelete(req.params.id);
+
+    if (!response) {
+      return res.status(400).json({
+        success: false,
+        msg: "not able to delete blog",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      msg: "blog deleted aptly",
+    });
+  } catch (error) {
+    console.log("error deleting blog", error);
+    return res.status(400).json({
+      success: false,
+      msg: "error in handleDeleteBlog()",
+    });
+  }
+}
+
 export {
   handleAddBlog,
   handleGetUserBlogs,
@@ -210,4 +234,5 @@ export {
   handleGetBlogByID,
   handleAddComment,
   handleGetCommentsByBlogId,
+  handleDeleteBlog,
 };

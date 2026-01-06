@@ -35,25 +35,26 @@ function CardDetails() {
     fetchBlog();
   }, [id]);
 
+  // fetch comments helper function
+  const fetchComments = async () => {
+    try {
+      const response = await axios.get(
+        `${BACKEND_URL}/blog/getcomments/${id}`,
+        {
+          withCredentials: true,
+        }
+      );
+
+      if (response.data.success) {
+        setComments(response.data.comments);
+      }
+    } catch (error) {
+      console.log("error fetching comments:", error);
+    }
+  };
+
   // get comments
   useEffect(() => {
-    const fetchComments = async () => {
-      try {
-        const response = await axios.get(
-          `${BACKEND_URL}/blog/getcomments/${id}`,
-          {
-            withCredentials: true,
-          }
-        );
-
-        if (response.data.success) {
-          setComments(response.data.comments);
-        }
-      } catch (error) {
-        console.log("error fetching comments:", error);
-      }
-    };
-
     fetchComments();
   }, [id]);
 
@@ -76,7 +77,8 @@ function CardDetails() {
         }
       );
       if (response.data.success) {
-        setComments([response.data.comment, ...comments]);
+        // Refetch comments to get the properly populated comment data
+        await fetchComments();
         setComment("");
         setToast("Comment added successfully!");
       }

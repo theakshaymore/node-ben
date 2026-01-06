@@ -7,6 +7,13 @@ function UserBlogList({ user }) {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  function handleDelete(id) {
+    try {
+    } catch (error) {
+      console.log("Error deleting blog:", error);
+    }
+  }
+
   useEffect(() => {
     async function getAllBlogs() {
       try {
@@ -97,6 +104,7 @@ function UserBlogList({ user }) {
                   <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
                 </g>
               </svg>
+              onClick={() => handleDelete(blog._id)}
             </button>
           </li>
         ))}

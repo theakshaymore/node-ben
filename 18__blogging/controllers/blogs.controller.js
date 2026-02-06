@@ -108,14 +108,19 @@ async function handleGetAllBlogs(req, res) {
 
 async function processResponseAsync(jobId, data) {
   try {
+    console.log("🔄 Processing job:", jobId);
     updateStatus(jobId, "processing");
 
     // artificial delay of 5 seconds
     await new Promise((resolve) => setTimeout(resolve, 5000));
+    console.log("⏰ Delay complete, fetching blogs...");
+
     const response = await Blog.find()
       .populate("createdBy", "fullname email profileurl") // Get author info
       .sort({ createdAt: -1 })
       .limit(10); // Limit to 50 latest blogs
+
+    console.log("✅ Fetched blogs:", response.length);
 
     if (!response) {
       updateStatus(jobId, "failed", { error: "No data found" });
@@ -123,6 +128,7 @@ async function processResponseAsync(jobId, data) {
     }
     updateStatus(jobId, "completed", response);
   } catch (error) {
+    console.log("❌ Error:", error);
     updateStatus(jobId, "failed", error);
   }
 }

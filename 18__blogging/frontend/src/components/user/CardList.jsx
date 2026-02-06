@@ -17,14 +17,17 @@ function CardList() {
     async function getAllBlogs() {
       try {
         setLoading(true);
+        console.log("🚀 Starting job...");
         const response = await axios.get(`${BACKEND_URL}/blog/getallblogs`, {
           withCredentials: true,
         });
 
         const { jobId, statusUrl } = response.data;
+        console.log("✅ Job started:", jobId);
 
         pollInterval = setInterval(async () => {
           try {
+            console.log("🔍 Checking status...");
             const status = await axios.get(
               `${BACKEND_URL}/blog/${jobId}/status`,
               {
@@ -33,18 +36,22 @@ function CardList() {
             );
 
             const { state, data } = status.data;
+            console.log("📊 Current state:", state);
 
             if (state === "completed") {
+              console.log("✅ Completed! Got blogs:", data.length);
               clearInterval(pollInterval);
               setBlogs(data);
               setLoading(false);
             } else if (state === "failed") {
+              console.log("❌ Failed:", data);
               clearInterval(pollInterval);
               setError(true);
               setMessage(data?.error || "Failed to load blogs");
               setLoading(false);
             }
           } catch (error) {
+            console.log("❌ Error:", error);
             clearInterval(pollInterval);
             setError(true);
             setMessage("Error checking status");

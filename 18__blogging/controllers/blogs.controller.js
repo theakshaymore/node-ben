@@ -1,3 +1,4 @@
+import { resolve } from "path";
 import Blog from "../models/blog.model.js";
 import Comment from "../models/comment.model.js";
 import imageKit from "../utils/imagekit.js";
@@ -99,7 +100,7 @@ async function handleGetAllBlogs(req, res) {
     jobId,
     success: false,
     msg: "Response generation started",
-    statusUrl: `/blog/${jobId}/status`,
+    statusUrl: `blog/${jobId}/status`,
   });
 
   processResponseAsync(jobId, req.body);
@@ -108,6 +109,9 @@ async function handleGetAllBlogs(req, res) {
 async function processResponseAsync(jobId, data) {
   try {
     updateStatus(jobId, "processing");
+
+    // artificial delay of 5 seconds
+    await new Promise((resolve) => setTimeout(resolve, 5000));
     const response = await Blog.find()
       .populate("createdBy", "fullname email profileurl") // Get author info
       .sort({ createdAt: -1 })

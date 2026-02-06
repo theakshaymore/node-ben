@@ -8,6 +8,7 @@ import {
   handleGetCommentsByBlogId,
   handleDeleteBlog,
   handleEditBlog,
+  handleJobStatus,
 } from "../controllers/blogs.controller.js";
 
 const router = Router();
@@ -15,6 +16,8 @@ const router = Router();
 router.post("/add", upload.single("image"), handleAddBlog);
 
 router.get("/getblogs", handleGetUserBlogs);
+
+router.get("/:jobId/status", handleJobStatus);
 
 router.delete("/:id", handleDeleteBlog);
 

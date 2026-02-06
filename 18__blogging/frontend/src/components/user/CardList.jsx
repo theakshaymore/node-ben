@@ -11,6 +11,9 @@ function CardList() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    let pollInterval = null;
+    let timeoutId = null;
+
     async function getAllBlogs() {
       try {
         setLoading(true);
@@ -20,17 +23,20 @@ function CardList() {
 
         const { jobId, statusUrl } = response.data;
 
-        const pollInterval = setInterval(async () => {
+        pollInterval = setInterval(async () => {
           try {
-            const status = await axios.get(`${BACKEND_URL}/${statusUrl}`, {
-              withCredentials: true,
-            });
+            const status = await axios.get(
+              `${BACKEND_URL}/blog/${jobId}/status`,
+              {
+                withCredentials: true,
+              },
+            );
 
             const { state, data } = status.data;
 
             if (state === "completed") {
               clearInterval(pollInterval);
-              setError(data);
+              setBlogs(data);
               setLoading(false);
             } else if (state === "failed") {
               clearInterval(pollInterval);
@@ -47,7 +53,7 @@ function CardList() {
         }, 2000);
 
         // Cleanup: Stop polling after 30 seconds (timeout)
-        setTimeout(() => {
+        timeoutId = setTimeout(() => {
           clearInterval(pollInterval);
           if (loading) {
             setError(true);
@@ -64,6 +70,12 @@ function CardList() {
     }
 
     getAllBlogs();
+
+    // Cleanup when component unmounts
+    return () => {
+      if (pollInterval) clearInterval(pollInterval);
+      if (timeoutId) clearTimeout(timeoutId);
+    };
   }, []);
 
   if (loading) {

@@ -5,6 +5,10 @@ import { randomBytes } from "crypto";
 
 const jobStatues = new Map();
 
+function updateStatus(jobId, state, data = null) {
+  jobStatues.set(jobId, { state, data });
+}
+
 async function handleAddBlog(req, res) {
   const { title, body } = req.body;
 
@@ -116,6 +120,20 @@ async function processResponseAsync(jobId, data) {
   } catch (error) {
     updateStatus(jobId, "failed", error);
   }
+}
+
+async function handleJobStatus(req, res) {
+  const { jobId } = req.params;
+
+  const status = jobStatues.get(jobId);
+
+  if (!status) {
+    return res.status(404).json({
+      msg: "Job not found",
+    });
+  }
+
+  res.json(status);
 }
 
 async function handleGetBlogByID(req, res) {

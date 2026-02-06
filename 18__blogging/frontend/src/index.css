@@ -1,12 +1,11 @@
+/* Import Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap");
 @import "tailwindcss";
 @plugin "daisyui" {
   themes:
     light --default,
     dark;
 }
-
-/* Import Google Fonts */
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap");
 
 /* Custom CSS Variables for premium design */
 :root {
@@ -334,21 +333,22 @@ html.dark ::-webkit-scrollbar-track {
   background: linear-gradient(
     135deg,
     rgba(102, 126, 234, 0.1) 0%,
-
-    html.dark .profile-header
-      {background: linear-gradient(
-        135deg,
-        rgba(102, 126, 234, 0.15) 0%,
-        rgba(118, 75, 162, 0.15) 100%
-      )
-      ;} rgba(118, 75, 162, 0.1) 100%
+    rgba(118, 75, 162, 0.1) 100%
   );
   border-radius: 2rem;
   padding: 2rem;
 }
 
+/* Dark mode version - separate rule */
+html.dark .profile-header {
+  background: linear-gradient(
+    135deg,
+    rgba(102, 126, 234, 0.15) 0%,
+    rgba(118, 75, 162, 0.15) 100%
+  );
+}
 /* Blog list item hover */
-. html.dark .list-row:hover {
+.html.dark .list-row:hover {
   background: rgba(102, 126, 234, 0.1);
 }
 list-row {

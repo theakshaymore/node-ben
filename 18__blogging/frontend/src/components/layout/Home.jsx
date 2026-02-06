@@ -5,7 +5,7 @@ const CardList = lazy(() => import("../user/CardList.jsx"));
 
 function Home() {
   return (
-    <div className="bg-gradient-to-b from-gray-50 to-white">
+    <div className="bg-linear-to-b from-gray-50 to-white">
       {/* Hero Section - Stunning visual impact */}
       <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
         {/* Background Image with Overlay */}
@@ -18,7 +18,7 @@ function Home() {
         />
 
         {/* Gradient Overlays */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/50 to-black/70" />
+        <div className="absolute inset-0 bg-linear-to-b from-black/40 via-black/50 to-black/70" />
         <div className="absolute inset-0 bg-gradient-to-r from-indigo-900/20 to-purple-900/20" />
 
         {/* Floating decoration elements */}
@@ -111,7 +111,7 @@ function Home() {
       </div>
 
       {/* Stats Section */}
-      <div className="relative -mt-20 z-20 max-w-5xl mx-auto px-6">
+      <div className="relative mt-20 z-20 max-w-5xl mx-auto px-6">
         <div className="bg-white rounded-3xl shadow-xl p-8 grid grid-cols-1 md:grid-cols-3 gap-8 border border-gray-100">
           <div className="text-center">
             <div className="text-4xl font-bold text-gradient mb-2">10K+</div>

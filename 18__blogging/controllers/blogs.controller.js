@@ -1,6 +1,7 @@
 import Blog from "../models/blog.model.js";
 import Comment from "../models/comment.model.js";
 import imageKit from "../utils/imagekit.js";
+import { randomBytes } from "crypto";
 
 async function handleAddBlog(req, res) {
   const { title, body } = req.body;
@@ -85,11 +86,25 @@ async function handleGetUserBlogs(req, res) {
 }
 
 async function handleGetAllBlogs(req, res) {
+  // optimization logic
+  const jobId = randomBytes(16).toString("hex");
+  res.status(200).json({
+    jobId,
+    success: false,
+    msg: "Response generation started",
+    statusUrl: `/blog/${jobId}/status`,
+  });
+
+  processResponseAsync(jobId, req.body);
+}
+
+async function processResponseAsync(jobId, data) {
   try {
+    updateStatus(jobId, "processing");
     const response = await Blog.find()
       .populate("createdBy", "fullname email profileurl") // Get author info
       .sort({ createdAt: -1 })
-      .limit(50); // Limit to 50 latest blogs
+      .limit(10); // Limit to 50 latest blogs
 
     if (!response) {
       return res.status(400).json({
@@ -98,16 +113,9 @@ async function handleGetAllBlogs(req, res) {
       });
     }
 
-    return res.status(200).json({
-      success: true,
-      blogs: response,
-    });
+    updateStatus(jobId, "completed", response);
   } catch (error) {
-    console.log("Server error");
-    return res.status(400).json({
-      success: false,
-      msg: "error in handleGetAllBlogs()",
-    });
+    updateStatus(jobId, "falied", error);
   }
 }
 
@@ -117,7 +125,7 @@ async function handleGetBlogByID(req, res) {
   try {
     const response = await Blog.findById(blogId).populate(
       "createdBy",
-      "fullname email profileurl"
+      "fullname email profileurl",
     );
 
     if (!response) {
@@ -179,7 +187,7 @@ async function handleGetCommentsByBlogId(req, res) {
   try {
     const response = await Comment.find({ blogId }).populate(
       "createdBy",
-      "fullname profileurl"
+      "fullname profileurl",
     );
 
     if (!response) {

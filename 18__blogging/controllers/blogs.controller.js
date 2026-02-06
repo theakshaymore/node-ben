@@ -91,6 +91,7 @@ async function handleGetUserBlogs(req, res) {
   }
 }
 
+// TODO: Job logic
 async function handleGetAllBlogs(req, res) {
   // optimization logic
   const jobId = randomBytes(16).toString("hex");
@@ -286,4 +287,5 @@ export {
   handleGetCommentsByBlogId,
   handleDeleteBlog,
   handleEditBlog,
+  handleJobStatus,
 };

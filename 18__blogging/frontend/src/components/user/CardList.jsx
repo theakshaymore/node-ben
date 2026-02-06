@@ -18,9 +18,43 @@ function CardList() {
           withCredentials: true,
         });
 
-        if (response.data.success) {
-          setBlogs(response.data.blogs);
-        }
+        const { jobId, statusUrl } = response.data;
+
+        const pollInterval = setInterval(async () => {
+          try {
+            const status = await axios.get(`${BACKEND_URL}/${statusUrl}`, {
+              withCredentials: true,
+            });
+
+            const { state, data } = status.data;
+
+            if (state === "completed") {
+              clearInterval(pollInterval);
+              setError(data);
+              setLoading(false);
+            } else if (state === "failed") {
+              clearInterval(pollInterval);
+              setError(true);
+              setMessage(data?.error || "Failed to load blogs");
+              setLoading(false);
+            }
+          } catch (error) {
+            clearInterval(pollInterval);
+            setError(true);
+            setMessage("Error checking status");
+            setLoading(false);
+          }
+        }, 2000);
+
+        // Cleanup: Stop polling after 30 seconds (timeout)
+        setTimeout(() => {
+          clearInterval(pollInterval);
+          if (loading) {
+            setError(true);
+            setMessage("Request timeout");
+            setLoading(false);
+          }
+        }, 3000);
       } catch (error) {
         setError(true);
         setMessage(error.response?.data?.msg || "Unable to load stories");

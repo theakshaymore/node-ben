@@ -28,13 +28,11 @@ function CardList() {
         pollInterval = setInterval(async () => {
           try {
             console.log("🔍 Checking status...");
-            const status = await axios.get(
-              `${BACKEND_URL}/blog/${jobId}/status`,
-              {
-                withCredentials: true,
-              },
-            );
+            const status = await axios.get(`${BACKEND_URL}/${statusUrl}`, {
+              withCredentials: true,
+            });
 
+            console.log("📦 Full response:", status.data);
             const { state, data } = status.data;
             console.log("📊 Current state:", state);
 
@@ -71,8 +69,6 @@ function CardList() {
       } catch (error) {
         setError(true);
         setMessage(error.response?.data?.msg || "Unable to load stories");
-      } finally {
-        setLoading(false);
       }
     }
 

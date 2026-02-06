@@ -103,10 +103,10 @@ async function handleGetAllBlogs(req, res) {
     statusUrl: `blog/${jobId}/status`,
   });
 
-  processResponseAsync(jobId, req.body);
+  processResponseAsync(jobId);
 }
 
-async function processResponseAsync(jobId, data) {
+async function processResponseAsync(jobId) {
   try {
     console.log("🔄 Processing job:", jobId);
     updateStatus(jobId, "processing");

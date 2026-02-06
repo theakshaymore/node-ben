@@ -3,6 +3,8 @@ import Comment from "../models/comment.model.js";
 import imageKit from "../utils/imagekit.js";
 import { randomBytes } from "crypto";
 
+const jobStatues = new Map();
+
 async function handleAddBlog(req, res) {
   const { title, body } = req.body;
 
@@ -88,7 +90,7 @@ async function handleGetUserBlogs(req, res) {
 async function handleGetAllBlogs(req, res) {
   // optimization logic
   const jobId = randomBytes(16).toString("hex");
-  res.status(200).json({
+  res.status(202).json({
     jobId,
     success: false,
     msg: "Response generation started",
@@ -107,15 +109,12 @@ async function processResponseAsync(jobId, data) {
       .limit(10); // Limit to 50 latest blogs
 
     if (!response) {
-      return res.status(400).json({
-        success: false,
-        msg: "not able to get data from DB",
-      });
+      updateStatus(jobId, "failed", { error: "No data found" });
+      return;
     }
-
     updateStatus(jobId, "completed", response);
   } catch (error) {
-    updateStatus(jobId, "falied", error);
+    updateStatus(jobId, "failed", error);
   }
 }
 

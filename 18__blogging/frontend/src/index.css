@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @plugin "daisyui" {
-  themes: light --default, dark;
+  themes:
+    light --default,
+    dark;
 }
 
 /* Import Google Fonts */
@@ -21,7 +23,11 @@
 
 /* Base styles */
 * {
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -34,6 +40,15 @@ html {
 body {
   background: linear-gradient(180deg, #fafafa 0%, #f0f0f0 100%);
   min-height: 100vh;
+}
+
+/* Dark mode styles */
+html.dark body {
+  background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+}
+
+html.dark {
+  color-scheme: dark;
 }
 
 /* Typography - Headings use Playfair Display for elegance */
@@ -96,6 +111,11 @@ h3 {
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
+html.dark .navbar-glass {
+  background: rgba(26, 26, 46, 0.8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
 /* Hero gradient overlay */
 .hero-gradient {
   background: linear-gradient(
@@ -130,6 +150,10 @@ h3 {
 
 .blog-card:hover::before {
   opacity: 0.05;
+}
+
+html.dark .blog-card:hover::before {
+  opacity: 0.1;
 }
 
 .blog-card:hover {
@@ -178,6 +202,11 @@ h3 {
   padding: 2rem;
 }
 
+html.dark .fieldset-modern {
+  background: linear-gradient(145deg, #2d2d44 0%, #1f1f32 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
 /* Loading skeleton shimmer */
 .skeleton {
   background: linear-gradient(
@@ -188,6 +217,15 @@ h3 {
   );
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
+}
+
+html.dark .skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.04) 25%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.04) 75%
+  );
 }
 
 @keyframes shimmer {
@@ -278,6 +316,10 @@ h3 {
   background: #f1f1f1;
 }
 
+html.dark ::-webkit-scrollbar-track {
+  background: #1a1a2e;
+}
+
 ::-webkit-scrollbar-thumb {
   background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
   border-radius: 4px;
@@ -292,14 +334,24 @@ h3 {
   background: linear-gradient(
     135deg,
     rgba(102, 126, 234, 0.1) 0%,
-    rgba(118, 75, 162, 0.1) 100%
+
+    html.dark .profile-header
+      {background: linear-gradient(
+        135deg,
+        rgba(102, 126, 234, 0.15) 0%,
+        rgba(118, 75, 162, 0.15) 100%
+      )
+      ;} rgba(118, 75, 162, 0.1) 100%
   );
   border-radius: 2rem;
   padding: 2rem;
 }
 
 /* Blog list item hover */
-.list-row {
+. html.dark .list-row:hover {
+  background: rgba(102, 126, 234, 0.1);
+}
+list-row {
   transition: var(--transition-smooth);
   border-radius: 1rem;
 }
@@ -315,6 +367,11 @@ h3 {
   border: 1px solid rgba(0, 0, 0, 0.05);
   border-radius: 1rem;
   transition: var(--transition-smooth);
+}
+
+html.dark .comment-card {
+  background: linear-gradient(145deg, #2d2d44 0%, #1f1f32 100%);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .comment-card:hover {

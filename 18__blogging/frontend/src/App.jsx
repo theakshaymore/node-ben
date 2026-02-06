@@ -1,4 +1,4 @@
-import React, { useEffect, Suspense, lazy } from "react";
+import React, { useEffect, Suspense, lazy, useState } from "react";
 import axios from "axios";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { BACKEND_URL } from "./utils/config";
@@ -21,6 +21,27 @@ const Loading = lazy(() => import("./components/layout/Loading"));
 function App() {
   //
   const dispatch = useDispatch();
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    // Check localStorage for saved theme preference
+    const saved = localStorage.getItem("theme");
+    if (saved) return saved === "dark";
+    // Check system preference
+    return window.matchMedia("(prefers-color-scheme: dark)").matches;
+  });
+
+  useEffect(() => {
+    // Apply theme to html element
+    const html = document.documentElement;
+    if (isDarkMode) {
+      html.setAttribute("data-theme", "dark");
+      html.classList.add("dark");
+    } else {
+      html.setAttribute("data-theme", "light");
+      html.classList.remove("dark");
+    }
+    // Save preference
+    localStorage.setItem("theme", isDarkMode ? "dark" : "light");
+  }, [isDarkMode]);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -49,7 +70,10 @@ function App() {
       {/* <h1>Ben Blogify</h1> */}
       <Router>
         <div className="flex flex-col min-h-screen">
-          <Navbar />
+          <Navbar
+            isDarkMode={isDarkMode}
+            onThemeToggle={() => setIsDarkMode(!isDarkMode)}
+          />
 
           <main className="grow">
             <Suspense fallback={<Loading />}>

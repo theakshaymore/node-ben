@@ -7,7 +7,7 @@ import { BACKEND_URL } from "../../utils/config";
 import { useDispatch, useSelector } from "react-redux";
 import { clearUser } from "../../store/authSlice";
 
-function Navbar() {
+function Navbar({ isDarkMode, onThemeToggle }) {
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -19,7 +19,7 @@ function Navbar() {
         {},
         {
           withCredentials: true,
-        }
+        },
       );
 
       dispatch(clearUser());
@@ -63,7 +63,7 @@ function Navbar() {
             <input
               type="text"
               placeholder="Search stories..."
-              className="w-full pl-11 pr-4 py-2.5 rounded-full bg-base-200/50 border border-transparent focus:border-indigo-300 focus:bg-white transition-all"
+              className="w-full pl-11 pr-4 py-2.5 rounded-full bg-base-200/50 dark:bg-base-800/50 border border-transparent focus:border-indigo-300 focus:bg-white dark:focus:bg-base-900 dark:focus:border-indigo-600 transition-all"
             />
             <svg
               className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-base-content/40"
@@ -83,6 +83,27 @@ function Navbar() {
 
         {/* Right Section */}
         <div className="flex items-center gap-3">
+          {/* Dark Mode Toggle */}
+          <button
+            onClick={onThemeToggle}
+            className="btn btn-ghost btn-circle text-xl hover:bg-base-300 dark:hover:bg-base-700 transition-colors"
+            aria-label="Toggle dark mode"
+          >
+            {isDarkMode ? (
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+              </svg>
+            ) : (
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  fillRule="evenodd"
+                  d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.536l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.121-10.607a1 1 0 010 1.414l-.707.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zm5.657-9.193a1 1 0 00-1.414 0l-.707.707A1 1 0 005.05 6.464l.707-.707a1 1 0 001.414-1.414zM5 11a1 1 0 100-2H4a1 1 0 100 2h1z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            )}
+          </button>
+
           {user && (
             <Link to="/add">
               <button className="btn btn-primary btn-sm rounded-full px-5 gap-2 hidden sm:flex">
@@ -124,11 +145,11 @@ function Navbar() {
             </div>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content bg-white rounded-2xl z-50 mt-3 w-56 p-2 shadow-xl border border-gray-100"
+              className="menu menu-sm dropdown-content bg-white dark:bg-base-800 rounded-2xl z-50 mt-3 w-56 p-2 shadow-xl border border-gray-100 dark:border-gray-700"
             >
               {user && (
                 <>
-                  <li className="px-3 py-2 border-b border-gray-100 mb-1">
+                  <li className="px-3 py-2 border-b border-gray-100 dark:border-gray-700 mb-1">
                     <div className="flex flex-col items-start gap-0 hover:bg-transparent cursor-default">
                       <span className="font-semibold text-base">
                         {user.fullname}

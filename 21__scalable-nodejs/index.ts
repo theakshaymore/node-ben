@@ -1,5 +1,6 @@
 import express from "express";
 import { addCourse } from "./utils/course";
+import { sendEmail } from "./utils/email";
 
 const app = express();
 
@@ -18,6 +19,12 @@ app.post("/add-course", async (req, res) => {
   await addCourse();
   // send email
 
+  await sendEmail({
+    from: "akshay@gmail.com",
+    to: "student@gmail.com",
+    subject: "Course purchase",
+    body: "aknsakhsasnsnajsajsbahbajsbshj",
+  });
   // send response
   return res
     .status(200)

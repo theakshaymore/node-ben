@@ -1,6 +1,6 @@
 import express from "express";
-import { addCourse } from "./utils/course";
-import { sendEmail } from "./utils/email";
+import { addCourse } from "./utils/course.ts";
+import { sendEmail } from "./utils/email.ts";
 
 const app = express();
 

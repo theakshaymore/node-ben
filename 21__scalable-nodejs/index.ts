@@ -1,10 +1,20 @@
 import express from "express";
+import { Queue } from "bullmq";
 import { addCourse } from "./utils/course.ts";
-import { sendEmail } from "./utils/email.ts";
 
 const app = express();
 
 const PORT = 8007;
+
+const emailQueue = new Queue("email-queue", {
+  connection: {
+    host: "valkey-4dc0338-akshay-9189.f.aivencloud.com",
+    port: 28503,
+    username: "default",
+    password: "AVNS_eWWQfcK8zJSWam9VKTo",
+    tls: {},
+  },
+});
 
 app.get("/", (req, res) => {
   return res.json({ status: "success", message: "Hello from Express Server" });
@@ -19,11 +29,11 @@ app.post("/add-course", async (req, res) => {
   await addCourse();
   // send email
 
-  await sendEmail({
+  await emailQueue.add(`${Date.now()}`, {
     from: "akshay@gmail.com",
     to: "student@gmail.com",
     subject: "Course purchase",
-    body: "aknsakhsasnsnajsajsbahbajsbshj",
+    body: "Dear Student, You have been enrolled to Twitter Clone Course",
   });
   // send response
   return res

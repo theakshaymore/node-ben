@@ -27,6 +27,7 @@ const emailWorker = new Worker(
       port: 28503,
       username: "default",
       password: "AVNS_eWWQfcK8zJSWam9VKTo",
+      tls: {},
     },
     limiter: {
       max: 50,

@@ -23,10 +23,10 @@ const emailWorker = new Worker(
   },
   {
     connection: {
-      host: "valkey-4dc0338-akshay-9189.f.aivencloud.com",
-      port: 28503,
-      username: "default",
-      password: "AVNS_eWWQfcK8zJSWam9VKTo",
+      host: "",
+      port: 222,
+      username: "",
+      password: "",
       tls: {},
     },
     limiter: {

@@ -1,11 +1,12 @@
 import { config } from "dotenv";
 import express from "express";
-import { prisma, connctDB, disconnectDB } from "./config/db.js";
+import { prisma, connectDB, disconnectDB } from "./config/db.js";
 
 // routes imports
 import movieRoutes from "./routes/movies.route.js";
 
 config();
+connectDB();
 
 const app = express();
 

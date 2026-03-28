@@ -2,8 +2,14 @@ import express from "express";
 
 const app = express();
 
-const PORT = 4009;
+const PORT = 8001;
+
+app.get("/", (req, res) => {
+  res.json({
+    message: "route api",
+  });
+});
 
 app.listen(PORT, () => {
-  console.log(`Server is runningg at port ${PORT}`);
+  console.log(`Server is running at port ${PORT}`);
 });

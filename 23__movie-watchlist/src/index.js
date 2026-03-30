@@ -4,23 +4,19 @@ import { prisma, connectDB, disconnectDB } from "./config/db.js";
 
 // routes imports
 import movieRoutes from "./routes/movies.route.js";
+import authRoutes from "./routes/auth.route.js";
 
 config();
 connectDB();
 
 const app = express();
 
-const PORT = 8001;
-
-app.get("/", (req, res) => {
-  res.json({
-    message: "route api",
-  });
-});
+const PORT = 8002;
 
 app.use("/movie", movieRoutes);
+app.use("/auth", authRoutes);
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server is running at port ${PORT}`);
 });
 

@@ -1,5 +1,6 @@
 import { prisma } from "../config/db.js";
 import bcrypt from "bcryptjs";
+import { generateToken } from "../utils/jwt.js";
 
 const registerUser = async (req, res) => {
   const { name, email, password } = req.body;
@@ -23,9 +24,11 @@ const registerUser = async (req, res) => {
       data: { name, email, password: hashedPassword },
     });
 
+    const token = await generateToken(response);
+
     // send response back
     if (response) {
-      return res.status(200).json({
+      return res.status(200).cookie("jwt-token", token).json({
         success: true,
         message: "user register aptly",
       });
@@ -52,14 +55,19 @@ const loginUser = async (req, res) => {
       });
     }
 
-    return res.status(200).json({
-      success: true,
-      user: {
-        id: response.id,
-        email: response.email,
-      },
-      message: "user logged in aptly",
-    });
+    const token = await generateToken(response);
+
+    return res
+      .status(200)
+      .cookie("jwt-token", token)
+      .json({
+        success: true,
+        user: {
+          id: response.id,
+          email: response.email,
+        },
+        message: "user logged in aptly",
+      });
   } catch (error) {
     return res.status(404).json({ error });
   }

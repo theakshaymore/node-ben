@@ -13,6 +13,9 @@ const app = express();
 
 const PORT = 8002;
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.use("/movie", movieRoutes);
 app.use("/auth", authRoutes);
 

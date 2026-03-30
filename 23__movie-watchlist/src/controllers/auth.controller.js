@@ -36,7 +36,33 @@ const registerUser = async (req, res) => {
 };
 
 const loginUser = async (req, res) => {
-  //
+  const { email, password } = req.body;
+
+  try {
+    const response = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
+
+    if (!response) {
+      return res.status(400).json({
+        success: false,
+        error: "username or password is wrong",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      user: {
+        id: response.id,
+        email: response.email,
+      },
+      message: "user logged in aptly",
+    });
+  } catch (error) {
+    return res.status(404).json({ error });
+  }
 };
 
 export { registerUser, loginUser };

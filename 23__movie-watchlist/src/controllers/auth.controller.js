@@ -73,4 +73,10 @@ const loginUser = async (req, res) => {
   }
 };
 
-export { registerUser, loginUser };
+const logoutUser = async (req, res) => {
+  res.cookie("jwt-token", "").json({
+    message: "user logged out aptly",
+  });
+};
+
+export { registerUser, loginUser, logoutUser };

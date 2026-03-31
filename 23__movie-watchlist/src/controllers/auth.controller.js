@@ -28,7 +28,7 @@ const registerUser = async (req, res) => {
 
     // send response back
     if (response) {
-      return res.status(200).cookie("jwt-token", token).json({
+      return res.status(200).cookie("jwtToken", token).json({
         success: true,
         message: "user register aptly",
       });
@@ -59,7 +59,7 @@ const loginUser = async (req, res) => {
 
     return res
       .status(200)
-      .cookie("jwt-token", token)
+      .cookie("jwtToken", token)
       .json({
         success: true,
         user: {
@@ -67,6 +67,7 @@ const loginUser = async (req, res) => {
           email: response.email,
         },
         message: "user logged in aptly",
+        token,
       });
   } catch (error) {
     return res.status(404).json({ error });
@@ -74,7 +75,7 @@ const loginUser = async (req, res) => {
 };
 
 const logoutUser = async (req, res) => {
-  res.cookie("jwt-token", "").json({
+  res.cookie("jwtToken", "").json({
     message: "user logged out aptly",
   });
 };

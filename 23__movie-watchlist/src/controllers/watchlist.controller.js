@@ -51,8 +51,6 @@ export async function addToWatchlist(req, res) {
 
 export async function deleteFromWatchlist(req, res) {
   const mid = req.params.id;
-  console.log(mid);
-  console.log(req.user.id);
 
   const response = await prisma.watchlistItem.findUnique({
     where: {

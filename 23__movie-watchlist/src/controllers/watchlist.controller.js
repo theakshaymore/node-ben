@@ -48,3 +48,40 @@ export async function addToWatchlist(req, res) {
     response,
   });
 }
+
+export async function deleteFromWatchlist(req, res) {
+  const mid = req.params.id;
+  console.log(mid);
+  console.log(req.user.id);
+
+  const response = await prisma.watchlistItem.findUnique({
+    where: {
+      id: mid,
+    },
+  });
+
+  if (!response) {
+    return res.status(400).json({
+      success: false,
+      error: "movie not found in watchlist",
+    });
+  }
+
+  if (response.userId !== req.user.id) {
+    return res.status(400).json({
+      success: false,
+      error: "you are not allowed to delete",
+    });
+  }
+
+  await prisma.watchlistItem.delete({
+    where: {
+      id: req.params.id,
+    },
+  });
+
+  return res.status(200).json({
+    success: true,
+    error: "movie deleted aptly from watchlist",
+  });
+}

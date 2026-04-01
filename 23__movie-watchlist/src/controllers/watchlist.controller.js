@@ -83,3 +83,43 @@ export async function deleteFromWatchlist(req, res) {
     error: "movie deleted aptly from watchlist",
   });
 }
+
+export async function updateMovieFromWatchlist(req, res) {
+  const { status, rating, notes } = req.body;
+
+  const mid = req.params.id;
+
+  const watchlistItem = await prisma.watchlistItem.findUnique({
+    where: { id: mid },
+  });
+
+  if (!watchlistItem) {
+    return res
+      .status(400)
+      .json({ success: false, error: "watchlist item not found" });
+  }
+
+  if (watchlistItem.userId !== req.user.id) {
+    return res
+      .status(400)
+      .json({ success: false, error: "not allowed to update" });
+  }
+
+  const updateData = {};
+
+  if (status !== undefined) updateData.status = status.toUpperCase();
+  if (rating !== undefined) updateData.rating = rating;
+  if (notes !== undefined) updateData.notes = notes;
+
+  const updatedItem = await prisma.watchlistItem.update({
+    where: { id: req.params.id },
+    data: updateData,
+  });
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      watchlistItem: updatedItem,
+    },
+  });
+}
